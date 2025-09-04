@@ -5,8 +5,39 @@ import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 import { getProjectsByCategory } from '../../data/projectsData';
 
 const ProjectsContainer = styled.section`
-  padding: var(--section-padding);
+  padding: 40px 0;
   background: var(--primary-bg);
+`;
+
+const SectionTitle = styled(motion.h2)`
+  font-family: var(--font-secondary);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-green) 50%, var(--accent-pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -20px;
+    right: -20px;
+    bottom: -10px;
+    background: linear-gradient(135deg, rgba(120, 119, 198, 0.1), rgba(255, 119, 198, 0.1));
+    border-radius: 20px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  &:hover::before {
+    opacity: 1;
+  }
 `;
 
 const ProjectFilters = styled(motion.div)`
@@ -186,22 +217,13 @@ const ProjectsSection: React.FC = () => {
     <ProjectsContainer ref={sectionRef} id="projects">
       <div className="container">
         <div className="section-header">
-          <motion.h2
-            className="section-title"
+          <SectionTitle
             initial={{ opacity: 0, y: 30 }}
             animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.6 }}
           >
-            Featured Projects
-          </motion.h2>
-          <motion.p
-            className="section-subtitle"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            Innovative solutions and research implementations
-          </motion.p>
+            My Creations
+          </SectionTitle>
         </div>
 
         <ProjectFilters

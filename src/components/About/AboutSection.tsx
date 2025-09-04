@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 
 const AboutContainer = styled.section`
-  padding: 4rem 0;
+  padding: 1.6rem 0;
   background: linear-gradient(180deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
   position: relative;
   overflow: hidden;
@@ -58,6 +58,7 @@ const SectionTitle = styled(motion.h2)`
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
   margin-bottom: 1rem;
+  text-align: center;
   background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-green) 50%, var(--accent-pink) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -317,9 +318,9 @@ const AboutSection: React.FC = () => {
             initial="hidden"
             animate={isIntersecting ? "visible" : "hidden"}
           >
-            <SectionTitle variants={itemVariants}>About Me</SectionTitle>
+            <SectionTitle variants={itemVariants}>Who I Am</SectionTitle>
             <SectionSubtitle variants={itemVariants}>
-              AI Researcher • Y Combinator Intern • Master's Student at SUNY Binghamton
+              AI Researcher • Y Combinator Intern • Master's Student at SUNY
             </SectionSubtitle>
           </motion.div>
         </SectionHeader>
@@ -337,7 +338,7 @@ const AboutSection: React.FC = () => {
             <Timeline>
               <TimelineItem variants={timelineVariants}>
                 <TimelineContent>
-                  <h4>Senior Research Assistant</h4>
+                  <h4>Senior Research Assistant  • SUNY Research Foundry</h4>
                   <span className="timeline-date">2025 - Present</span>
                   <p>Leading cutting-edge automation research • Advanced AI/ML implementations • Publications in progress</p>
                 </TimelineContent>
@@ -353,7 +354,7 @@ const AboutSection: React.FC = () => {
               
               <TimelineItem variants={timelineVariants}>
                 <TimelineContent>
-                  <h4>Agentic Automation Intern • Skyvern (Y Combinator)</h4>
+                  <h4>Agentic Automation Intern • Skyvern - Y Combinator</h4>
                   <span className="timeline-date">Summer 2025</span>
                   <p>Y Combinator-backed startup • AI agent development • Browser automation at scale</p>
                 </TimelineContent>
@@ -369,7 +370,7 @@ const AboutSection: React.FC = () => {
               
               <TimelineItem variants={timelineVariants}>
                 <TimelineContent>
-                  <h4>Bachelor's in Computer Science</h4>
+                  <h4>Bachelor's in Computer Science  • ANNA University</h4>
                   <span className="timeline-date">2019 - 2023</span>
                   <p>Magna Cum Laude • Software Engineering • AI/ML Fundamentals</p>
                 </TimelineContent>

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 
 const ContactContainer = styled.section`
-  padding: var(--section-padding);
+  padding: 20px 0;
   background: var(--primary-bg);
   border-top: 1px solid var(--border-color);
 `;
@@ -17,24 +17,44 @@ const ContactContent = styled(motion.div)`
 
 const ContactTitle = styled(motion.h2)`
   font-family: var(--font-secondary);
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
+  text-align: center;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-green) 50%, var(--accent-pink) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -20px;
+    right: -20px;
+    bottom: -10px;
+    background: linear-gradient(135deg, rgba(120, 119, 198, 0.1), rgba(255, 119, 198, 0.1));
+    border-radius: 20px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  &:hover::before {
+    opacity: 1;
+  }
 `;
 
 const ContactSubtitle = styled(motion.p)`
   font-size: 1.3rem;
   color: var(--text-secondary);
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
   line-height: 1.6;
 `;
 
 const EmailSection = styled(motion.div)`
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 `;
 
 const EmailLink = styled(motion.a)`
@@ -72,13 +92,13 @@ const EmailLink = styled(motion.a)`
 `;
 
 const SocialSection = styled(motion.div)`
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
 `;
 
 const SocialTitle = styled.h3`
   font-size: 1.5rem;
   color: var(--text-primary);
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   font-weight: 600;
 `;
 
@@ -120,14 +140,9 @@ const SocialLink = styled(motion.a)`
     border-color: #333;
   }
 
-  &.scholar:hover {
-    background: #4285f4;
-    border-color: #4285f4;
-  }
-
-  &.email:hover {
-    background: var(--accent-green);
-    border-color: var(--accent-green);
+  &.devto:hover {
+    background: #0a0a0a;
+    border-color: #0a0a0a;
   }
 
   @media (max-width: 768px) {
@@ -202,12 +217,11 @@ const ContactSection: React.FC = () => {
           animate={isIntersecting ? "visible" : "hidden"}
         >
           <ContactTitle variants={itemVariants}>
-            Let's Connect
+            Get in Touch
           </ContactTitle>
           
           <ContactSubtitle variants={itemVariants}>
-            Ready to collaborate on innovative projects or discuss exciting opportunities? 
-            I'm always open to connecting with fellow developers, researchers, and companies looking for H-1B sponsorship candidates.
+            Always open for opportunities and collaborations
           </ContactSubtitle>
 
           <EmailSection variants={itemVariants}>
@@ -247,36 +261,18 @@ const ContactSection: React.FC = () => {
               </SocialLink>
               
               <SocialLink
-                href="https://scholar.google.com/citations?user=example"
+                href="https://dev.to/prakash-maheshwaran"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="scholar"
+                className="devto"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <i className="fas fa-graduation-cap" />
-              </SocialLink>
-              
-              <SocialLink
-                href="mailto:prakash.maheshwaran@binghamton.edu"
-                className="email"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <i className="fas fa-envelope" />
+                <i className="fab fa-dev" />
               </SocialLink>
             </SocialLinks>
           </SocialSection>
 
-          <LocationSection variants={itemVariants}>
-            <LocationTitle>
-              <i className="fas fa-map-marker-alt" />
-              Current Location
-            </LocationTitle>
-            <LocationText>
-              Binghamton, NY • SUNY Binghamton Campus
-            </LocationText>
-          </LocationSection>
         </ContactContent>
       </div>
     </ContactContainer>

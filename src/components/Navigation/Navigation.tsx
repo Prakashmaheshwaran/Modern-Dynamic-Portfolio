@@ -76,7 +76,7 @@ const NavLink = styled(motion.button)<{ isActive: boolean }>`
   font-size: 0.9rem;
   font-weight: 500;
   color: ${props => props.isActive ? 'var(--accent-green)' : 'rgba(255, 255, 255, 0.9)'};
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   white-space: nowrap;
   letter-spacing: 0.025em;
   min-width: fit-content;
@@ -86,17 +86,38 @@ const NavLink = styled(motion.button)<{ isActive: boolean }>`
   justify-content: center;
   backdrop-filter: ${props => props.isActive ? 'blur(20px)' : 'none'};
   -webkit-backdrop-filter: ${props => props.isActive ? 'blur(20px)' : 'none'};
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 255, 170, 0.1), rgba(255, 106, 255, 0.1));
+    border-radius: 40px;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: scale(0.8);
+  }
 
   &:hover {
     color: var(--accent-green);
     background: rgba(0, 255, 170, 0.12);
     border: 1px solid rgba(0, 255, 170, 0.25);
-    transform: translateY(-1px);
+    transform: translateY(-2px) scale(1.05);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     box-shadow: 
-      0 4px 16px rgba(0, 255, 170, 0.08),
+      0 8px 25px rgba(0, 255, 170, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    
+    &::before {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   @media (max-width: 768px) {
@@ -169,8 +190,27 @@ const Navigation: React.FC<NavigationProps> = ({ currentSection, onSectionChange
             <NavLink
               isActive={activeSection === section.id}
               onClick={() => handleNavClick(section.id)}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ 
+                scale: 1.05,
+                transition: { 
+                  type: "spring", 
+                  stiffness: 400, 
+                  damping: 10 
+                }
+              }}
+              whileTap={{ 
+                scale: 0.95,
+                transition: { 
+                  type: "spring", 
+                  stiffness: 600, 
+                  damping: 15 
+                }
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 20
+              }}
               title={section.label}
             >
               {section.label}

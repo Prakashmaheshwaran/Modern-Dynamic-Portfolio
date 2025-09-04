@@ -7,6 +7,7 @@ import Navigation from './components/Navigation/Navigation';
 import HeroSection from './components/Hero/HeroSection';
 import AboutSection from './components/About/AboutSection';
 import ProjectsSection from './components/Projects/ProjectsSection';
+import TechToolsSection from './components/TechTools/TechToolsSection';
 import BlogSection from './components/Blog/BlogSection';
 import ContactSection from './components/Contact/ContactSection';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
@@ -71,6 +72,7 @@ function App() {
             <HeroSection onSectionChange={handleSectionChange} />
             <AboutSection />
             <ProjectsSection />
+            <TechToolsSection />
             <BlogSection />
             <ContactSection />
           </ContentWrapper>

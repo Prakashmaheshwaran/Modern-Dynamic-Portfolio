@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 
 const BlogContainer = styled.section`
-  padding: var(--section-padding);
+  padding: 40px 0;
   background: var(--secondary-bg);
 `;
 
@@ -19,10 +19,30 @@ const BlogTitle = styled(motion.h2)`
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+  text-align: center;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-green) 50%, var(--accent-pink) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -20px;
+    right: -20px;
+    bottom: -10px;
+    background: linear-gradient(135deg, rgba(120, 119, 198, 0.1), rgba(255, 119, 198, 0.1));
+    border-radius: 20px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  &:hover::before {
+    opacity: 1;
+  }
 `;
 
 const BlogSubtitle = styled(motion.p)`
@@ -107,12 +127,8 @@ const BlogSection: React.FC = () => {
           animate={isIntersecting ? "visible" : "hidden"}
         >
           <BlogTitle variants={itemVariants}>
-            Blog
+            Thoughts & Insights
           </BlogTitle>
-          
-          <BlogSubtitle variants={itemVariants}>
-            Sharing insights on automation, machine learning, and software development
-          </BlogSubtitle>
 
           <ComingSoon variants={itemVariants}>
             <h3>Coming Soon!</h3>
