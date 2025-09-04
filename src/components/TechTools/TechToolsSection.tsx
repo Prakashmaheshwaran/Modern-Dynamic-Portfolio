@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 import { getAllTechTools } from '../../data/techToolsData';
+import LogoIcon from '../UI/LogoIcon';
 
 const TechToolsContainer = styled.section`
   padding: 40px 0;
@@ -173,7 +174,7 @@ const TechToolsSection: React.FC = () => {
               transition={{ duration: 0.2 }}
             >
               <TechIcon color={tool.color}>
-                <i className={tool.icon} />
+                <LogoIcon name={tool.icon} size={40} color={tool.color} />
               </TechIcon>
               <TechName>{tool.name}</TechName>
             </TechToolItem>

@@ -3,91 +3,110 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
 import { scrollToSection } from '../../utils/scrollUtils';
+import { 
+  FaHome, 
+  FaRoute, 
+  FaFileAlt, 
+  FaCalendarAlt, 
+  FaGithub, 
+  FaLinkedin,
+  FaEnvelope
+} from 'react-icons/fa';
+import { SiDevdotto } from 'react-icons/si';
+import { IconType } from 'react-icons';
 
 interface NavigationProps {
   currentSection: string;
   onSectionChange: (section: string) => void;
 }
 
+interface NavItem {
+  id: string;
+  label: string;
+  icon: IconType;
+  tooltip: string;
+  isExternal?: boolean;
+  url?: string;
+}
+
 const NavContainer = styled(motion.nav)`
   position: fixed;
-  bottom: 1rem;
-  left: 30%;
-  transform: translateX(-50%);
-  background: rgba(15, 35, 65, 0.08);
-  backdrop-filter: blur(60px) saturate(200%) brightness(120%);
-  -webkit-backdrop-filter: blur(60px) saturate(200%) brightness(120%);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 60px;
-  padding: 0.3rem 2.5rem;
+  right: 1rem;
+  top: 20%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 0.8rem 0.6rem;
   z-index: 1000;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 0.5rem;
   box-shadow: 
-    0 8px 40px rgba(0, 0, 0, 0.08),
-    0 4px 20px rgba(0, 0, 0, 0.05),
-    0 2px 8px rgba(0, 0, 0, 0.03),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.15);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    transform: translateX(-50%) translateY(-4px);
-    background: rgba(15, 35, 65, 0.12);
-    border: 1px solid rgba(0, 255, 170, 0.4);
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 
-      0 20px 80px rgba(0, 0, 0, 0.12),
-      0 10px 40px rgba(0, 255, 170, 0.08),
-      0 5px 20px rgba(0, 255, 170, 0.05),
-      inset 0 1px 0 rgba(255, 255, 255, 0.5),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+      0 12px 40px rgba(0, 0, 0, 0.5),
+      0 6px 20px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
+  /* Tablet styles */
+  @media (max-width: 1024px) {
+    right: 1.5rem;
+    padding: 0.7rem 0.5rem;
+    gap: 0.4rem;
+  }
+
+  /* Mobile landscape */
   @media (max-width: 768px) {
-    left: 50%;
-    bottom: 0.75rem;
-    padding: 0.25rem 2rem;
-    border-radius: 50px;
+    right: 1rem;
+    padding: 0.6rem 0.4rem;
+    gap: 0.3rem;
+    border-radius: 12px;
   }
 
+  /* Mobile portrait */
   @media (max-width: 480px) {
-    left: 50%;
-    bottom: 0.5rem;
-    padding: 0.2rem 1.5rem;
-    border-radius: 40px;
+    right: 0.75rem;
+    padding: 0.5rem 0.3rem;
+    gap: 0.25rem;
+    border-radius: 10px;
+  }
+
+  /* Very small screens */
+  @media (max-width: 360px) {
+    right: 0.5rem;
+    padding: 0.4rem 0.25rem;
+    gap: 0.2rem;
+    border-radius: 8px;
   }
 `;
 
-const NavMenu = styled(motion.div)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.01rem;
-`;
-
-const NavLink = styled(motion.button)<{ isActive: boolean }>`
-  padding: 0.8rem 1.6rem;
-  background: ${props => props.isActive ? 'rgba(0, 255, 170, 0.12)' : 'transparent'};
-  border: ${props => props.isActive ? '1px solid rgba(0, 255, 170, 0.25)' : '1px solid transparent'};
-  border-radius: 40px;
+const NavIcon = styled(motion.button)<{ isActive: boolean }>`
+  width: 40px;
+  height: 40px;
+  background: ${props => props.isActive ? 'rgba(255, 255, 255, 0.15)' : 'transparent'};
+  border: ${props => props.isActive ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid transparent'};
+  border-radius: 10px;
   cursor: pointer;
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: ${props => props.isActive ? 'var(--accent-green)' : 'rgba(255, 255, 255, 0.9)'};
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  white-space: nowrap;
-  letter-spacing: 0.025em;
-  min-width: fit-content;
-  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: ${props => props.isActive ? 'blur(20px)' : 'none'};
-  -webkit-backdrop-filter: ${props => props.isActive ? 'blur(20px)' : 'none'};
+  color: ${props => props.isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.7)'};
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  font-size: 1rem;
 
   &::before {
     content: '';
@@ -96,51 +115,124 @@ const NavLink = styled(motion.button)<{ isActive: boolean }>`
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(0, 255, 170, 0.1), rgba(255, 106, 255, 0.1));
-    border-radius: 40px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+    border-radius: 10px;
     opacity: 0;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transform: scale(0.8);
+    transition: all 0.3s ease;
   }
 
   &:hover {
-    color: var(--accent-green);
-    background: rgba(0, 255, 170, 0.12);
-    border: 1px solid rgba(0, 255, 170, 0.25);
-    transform: translateY(-2px) scale(1.05);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 
-      0 8px 25px rgba(0, 255, 170, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     
     &::before {
       opacity: 1;
-      transform: scale(1);
     }
   }
 
-  @media (max-width: 768px) {
-    padding: 0.7rem 1.3rem;
-    font-size: 0.85rem;
+  &:active {
+    transform: translateY(0px) scale(0.95);
   }
 
+  /* Tablet styles */
+  @media (max-width: 1024px) {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+
+  /* Mobile landscape */
+  @media (max-width: 768px) {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
+
+  /* Mobile portrait */
   @media (max-width: 480px) {
-    padding: 0.6rem 1.1rem;
+    width: 28px;
+    height: 28px;
     font-size: 0.8rem;
+    border-radius: 6px;
+  }
+
+  /* Very small screens */
+  @media (max-width: 360px) {
+    width: 24px;
+    height: 24px;
+    font-size: 0.7rem;
+    border-radius: 5px;
+  }
+
+  /* Touch device optimizations */
+  @media (hover: none) and (pointer: coarse) {
+    &:hover {
+      transform: none;
+      background: ${props => props.isActive ? 'rgba(255, 255, 255, 0.15)' : 'transparent'};
+      border: ${props => props.isActive ? '1px solid rgba(255, 255, 255, 0.3)' : '1px solid transparent'};
+      box-shadow: none;
+    }
+
+    &:active {
+      transform: scale(0.9);
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
   }
 `;
 
-const sections = [
-  { id: 'hero', label: 'Home' },
-  // { id: 'about', label: 'About' }, i commented out
-  { id: 'projects', label: 'Projects' },
-  { id: 'blog', label: 'Blog' },
-  { id: 'contact', label: 'Contact' }
+const Tooltip = styled(motion.div)`
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 1rem;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  
+  &::before {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid rgba(0, 0, 0, 0.9);
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const navItems: NavItem[] = [
+  { id: 'hero', label: 'Home', icon: FaHome, tooltip: 'Home' },
+  { id: 'about', label: 'Roadmap', icon: FaRoute, tooltip: 'About & Roadmap' },
+  { id: 'resume', label: 'Resume', icon: FaFileAlt, tooltip: 'Download Resume', isExternal: true, url: '/resume.pdf' },
+  { id: 'meeting', label: 'Schedule', icon: FaCalendarAlt, tooltip: 'Schedule a Meeting', isExternal: true, url: 'https://calendly.com/your-username' },
+  { id: 'github', label: 'GitHub', icon: FaGithub, tooltip: 'GitHub Profile', isExternal: true, url: 'https://github.com/your-username' },
+  { id: 'linkedin', label: 'LinkedIn', icon: FaLinkedin, tooltip: 'LinkedIn Profile', isExternal: true, url: 'https://linkedin.com/in/your-username' },
+  { id: 'devto', label: 'Dev.to', icon: SiDevdotto, tooltip: 'Dev.to Blog', isExternal: true, url: 'https://dev.to/your-username' },
+  { id: 'email', label: 'Email', icon: FaEnvelope, tooltip: 'Send Email', isExternal: true, url: 'mailto:prakash.maheshwaran@binghamton.edu' }
 ];
 
 const Navigation: React.FC<NavigationProps> = ({ currentSection, onSectionChange }) => {
-  const sectionIds = sections.map(section => section.id);
+  const sectionIds = navItems.filter(item => !item.isExternal).map(item => item.id);
   const activeSection = useScrollSpy({ sections: sectionIds, offset: 100 });
 
   // Update parent component when section changes
@@ -148,14 +240,18 @@ const Navigation: React.FC<NavigationProps> = ({ currentSection, onSectionChange
     onSectionChange(activeSection);
   }, [activeSection, onSectionChange]);
 
-  const handleNavClick = (sectionId: string) => {
-    scrollToSection(sectionId);
+  const handleNavClick = (item: NavItem) => {
+    if (item.isExternal && item.url) {
+      window.open(item.url, '_blank', 'noopener,noreferrer');
+    } else {
+      scrollToSection(item.id);
+    }
   };
 
   const navVariants = {
-    hidden: { y: 100, opacity: 0 },
+    hidden: { x: 100, opacity: 0 },
     visible: { 
-      y: 0, 
+      x: 0, 
       opacity: 1,
       transition: {
         duration: 0.6,
@@ -166,10 +262,10 @@ const Navigation: React.FC<NavigationProps> = ({ currentSection, onSectionChange
     }
   };
 
-  const linkVariants = {
-    hidden: { y: 20, opacity: 0 },
+  const iconVariants = {
+    hidden: { x: 20, opacity: 0 },
     visible: {
-      y: 0,
+      x: 0,
       opacity: 1,
       transition: {
         duration: 0.4,
@@ -184,14 +280,17 @@ const Navigation: React.FC<NavigationProps> = ({ currentSection, onSectionChange
       initial="hidden"
       animate="visible"
     >
-      <NavMenu>
-        {sections.map((section) => (
-          <motion.div key={section.id} variants={linkVariants}>
-            <NavLink
-              isActive={activeSection === section.id}
-              onClick={() => handleNavClick(section.id)}
+      {navItems.map((item) => {
+        const IconComponent = item.icon as React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
+        const isActive = activeSection === item.id;
+        
+        return (
+          <motion.div key={item.id} variants={iconVariants} style={{ position: 'relative' }}>
+            <NavIcon
+              isActive={isActive}
+              onClick={() => handleNavClick(item)}
               whileHover={{ 
-                scale: 1.05,
+                scale: 1.1,
                 transition: { 
                   type: "spring", 
                   stiffness: 400, 
@@ -199,7 +298,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentSection, onSectionChange
                 }
               }}
               whileTap={{ 
-                scale: 0.95,
+                scale: 0.9,
                 transition: { 
                   type: "spring", 
                   stiffness: 600, 
@@ -211,13 +310,20 @@ const Navigation: React.FC<NavigationProps> = ({ currentSection, onSectionChange
                 stiffness: 300,
                 damping: 20
               }}
-              title={section.label}
+              title={item.tooltip}
             >
-              {section.label}
-            </NavLink>
+              <IconComponent />
+              <Tooltip
+                initial={{ opacity: 0, x: 10 }}
+                whileHover={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {item.tooltip}
+              </Tooltip>
+            </NavIcon>
           </motion.div>
-        ))}
-      </NavMenu>
+        );
+      })}
     </NavContainer>
   );
 };

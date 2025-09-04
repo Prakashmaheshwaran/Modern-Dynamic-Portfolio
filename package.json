@@ -14,6 +14,7 @@
     "framer-motion": "^10.16.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.5.0",
     "react-intersection-observer": "^9.5.3",
     "react-scripts": "^5.0.1",
     "styled-components": "^6.1.1",
@@ -54,6 +55,7 @@
   "devDependencies": {
     "@babel/helper-define-polyfill-provider": "^0.6.5",
     "@types/react": "^18.2.42",
-    "@types/react-dom": "^18.2.17"
+    "@types/react-dom": "^18.2.17",
+    "@types/simple-icons": "^5.8.0"
   }
 }

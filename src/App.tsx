@@ -9,7 +9,6 @@ import AboutSection from './components/About/AboutSection';
 import ProjectsSection from './components/Projects/ProjectsSection';
 import TechToolsSection from './components/TechTools/TechToolsSection';
 import BlogSection from './components/Blog/BlogSection';
-import ContactSection from './components/Contact/ContactSection';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 
 // Styles
@@ -17,7 +16,7 @@ import GlobalStyles from './styles/GlobalStyles';
 
 const AppContainer = styled.div`
   min-height: 100vh;
-  background-color: #0B1D3A;
+  background-color: #000000;
   overflow-x: hidden;
 `;
 
@@ -74,7 +73,6 @@ function App() {
             <ProjectsSection />
             <TechToolsSection />
             <BlogSection />
-            <ContactSection />
           </ContentWrapper>
         )}
       </AppContainer>

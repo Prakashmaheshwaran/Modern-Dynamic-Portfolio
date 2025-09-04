@@ -17,8 +17,8 @@ const AboutContainer = styled.section`
     width: 200%;
     height: 200%;
     background: 
-      radial-gradient(circle at 25% 25%, rgba(120, 119, 198, 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(255, 119, 198, 0.03) 0%, transparent 50%);
+      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(204, 204, 204, 0.02) 0%, transparent 50%);
     animation: float 20s ease-in-out infinite;
     z-index: 0;
   }
@@ -72,7 +72,7 @@ const SectionTitle = styled(motion.h2)`
     left: -20px;
     right: -20px;
     bottom: -10px;
-    background: linear-gradient(135deg, rgba(120, 119, 198, 0.1), rgba(255, 119, 198, 0.1));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(204, 204, 204, 0.05));
     border-radius: 20px;
     z-index: -1;
     opacity: 0;

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 import { skillsData, skillCategories } from '../../data/skillsData';
+import LogoIcon from '../UI/LogoIcon';
 
 const SkillsContainer = styled.section`
   padding: var(--section-padding);
@@ -173,7 +174,7 @@ const SkillsSection: React.FC = () => {
                 whileHover={{ scale: 1.02 }}
               >
                 <h3>
-                  <i className={category.icon} />
+                  <LogoIcon name={category.icon} size={20} color="var(--accent-green)" />
                   {category.label}
                 </h3>
                 <SkillItems>
@@ -187,11 +188,11 @@ const SkillsSection: React.FC = () => {
                       }}
                     >
                       <SkillIcon color={skill.color}>
-                        {skill.icon ? (
-                          <i className={skill.icon} />
-                        ) : (
-                          <i className="fas fa-code" />
-                        )}
+                        <LogoIcon 
+                          name={skill.icon || 'code'} 
+                          size={32} 
+                          color={skill.color} 
+                        />
                       </SkillIcon>
                       <SkillName>{skill.name}</SkillName>
                     </SkillItem>

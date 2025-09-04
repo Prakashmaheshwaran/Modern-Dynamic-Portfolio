@@ -14,7 +14,7 @@ export const skillsData: Skill[] = [
     level: 90,
     category: 'programming',
     color: '#3776ab',
-    icon: 'fab fa-python',
+    icon: 'python',
     description: 'Expert in Python for automation, ML, and backend development'
   },
   {
@@ -22,7 +22,7 @@ export const skillsData: Skill[] = [
     level: 82,
     category: 'programming',
     color: '#f7df1e',
-    icon: 'fab fa-js-square',
+    icon: 'javascript',
     description: 'Proficient in modern JavaScript and TypeScript'
   },
   {
@@ -30,7 +30,7 @@ export const skillsData: Skill[] = [
     level: 78,
     category: 'programming',
     color: '#ed8b00',
-    icon: 'fab fa-java',
+    icon: 'java',
     description: 'Strong foundation in Java for enterprise applications'
   },
   {
@@ -38,7 +38,7 @@ export const skillsData: Skill[] = [
     level: 70,
     category: 'programming',
     color: '#00599c',
-    icon: 'fas fa-code',
+    icon: 'c++',
     description: 'Systems programming and algorithm optimization'
   },
   
@@ -48,7 +48,7 @@ export const skillsData: Skill[] = [
     level: 85,
     category: 'ml',
     color: '#ff6f00',
-    icon: 'fas fa-brain',
+    icon: 'tensorflow',
     description: 'Deep learning model development and deployment'
   },
   {
@@ -56,7 +56,7 @@ export const skillsData: Skill[] = [
     level: 80,
     category: 'ml',
     color: '#ee4c2c',
-    icon: 'fas fa-brain',
+    icon: 'pytorch',
     description: 'Research-focused deep learning framework'
   },
   {
@@ -64,7 +64,7 @@ export const skillsData: Skill[] = [
     level: 88,
     category: 'ml',
     color: '#f7931e',
-    icon: 'fas fa-chart-line',
+    icon: 'scikit-learn',
     description: 'Classical machine learning and data preprocessing'
   },
   {
@@ -72,7 +72,7 @@ export const skillsData: Skill[] = [
     level: 75,
     category: 'ml',
     color: '#5c85d6',
-    icon: 'fas fa-eye',
+    icon: 'opencv',
     description: 'Computer vision and image processing'
   },
   
@@ -82,7 +82,7 @@ export const skillsData: Skill[] = [
     level: 85,
     category: 'web',
     color: '#61dafb',
-    icon: 'fab fa-react',
+    icon: 'react',
     description: 'Modern frontend development with hooks and context'
   },
   {
@@ -90,7 +90,7 @@ export const skillsData: Skill[] = [
     level: 80,
     category: 'web',
     color: '#339933',
-    icon: 'fab fa-node-js',
+    icon: 'nodejs',
     description: 'Backend development and API design'
   },
   {
@@ -98,7 +98,7 @@ export const skillsData: Skill[] = [
     level: 83,
     category: 'web',
     color: '#009688',
-    icon: 'fas fa-rocket',
+    icon: 'fastapi',
     description: 'High-performance API development'
   },
   {
@@ -106,7 +106,7 @@ export const skillsData: Skill[] = [
     level: 72,
     category: 'web',
     color: '#e10098',
-    icon: 'fas fa-project-diagram',
+    icon: 'graphql',
     description: 'Efficient API query language'
   },
   
@@ -116,7 +116,7 @@ export const skillsData: Skill[] = [
     level: 78,
     category: 'tools',
     color: '#2496ed',
-    icon: 'fab fa-docker',
+    icon: 'docker',
     description: 'Containerization and microservices'
   },
   {
@@ -124,7 +124,7 @@ export const skillsData: Skill[] = [
     level: 70,
     category: 'tools',
     color: '#326ce5',
-    icon: 'fas fa-dharmachakra',
+    icon: 'kubernetes',
     description: 'Container orchestration and scaling'
   },
   {
@@ -132,7 +132,7 @@ export const skillsData: Skill[] = [
     level: 92,
     category: 'tools',
     color: '#f05032',
-    icon: 'fab fa-git-alt',
+    icon: 'git',
     description: 'Version control and collaborative development'
   },
   {
@@ -140,7 +140,7 @@ export const skillsData: Skill[] = [
     level: 75,
     category: 'tools',
     color: '#ff9900',
-    icon: 'fab fa-aws',
+    icon: 'aws',
     description: 'Cloud infrastructure and services'
   },
   
@@ -150,7 +150,7 @@ export const skillsData: Skill[] = [
     level: 80,
     category: 'database',
     color: '#336791',
-    icon: 'fas fa-database',
+    icon: 'postgresql',
     description: 'Relational database design and optimization'
   },
   {
@@ -158,7 +158,7 @@ export const skillsData: Skill[] = [
     level: 76,
     category: 'database',
     color: '#47a248',
-    icon: 'fas fa-leaf',
+    icon: 'mongodb',
     description: 'NoSQL database for scalable applications'
   },
   {
@@ -166,7 +166,7 @@ export const skillsData: Skill[] = [
     level: 74,
     category: 'database',
     color: '#dc382d',
-    icon: 'fas fa-memory',
+    icon: 'redis',
     description: 'In-memory caching and session storage'
   },
   {
@@ -174,7 +174,7 @@ export const skillsData: Skill[] = [
     level: 72,
     category: 'database',
     color: '#005571',
-    icon: 'fas fa-search',
+    icon: 'elasticsearch',
     description: 'Search engine and analytics'
   }
 ];
@@ -190,9 +190,9 @@ export const getTopSkills = (limit: number = 8) => {
 };
 
 export const skillCategories = [
-  { key: 'programming', label: 'Programming Languages', icon: 'fas fa-code' },
-  { key: 'ml', label: 'Machine Learning & AI', icon: 'fas fa-brain' },
-  { key: 'web', label: 'Web Development', icon: 'fas fa-globe' },
-  { key: 'tools', label: 'Tools & Infrastructure', icon: 'fas fa-tools' },
-  { key: 'database', label: 'Databases', icon: 'fas fa-database' }
+  { key: 'programming', label: 'Programming Languages', icon: 'code' },
+  { key: 'ml', label: 'Machine Learning & AI', icon: 'brain' },
+  { key: 'web', label: 'Web Development', icon: 'globe' },
+  { key: 'tools', label: 'Tools & Infrastructure', icon: 'tools' },
+  { key: 'database', label: 'Databases', icon: 'database' }
 ] as const;

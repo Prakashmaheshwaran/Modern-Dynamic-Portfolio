@@ -12,7 +12,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'django',
     name: 'Django',
-    icon: 'fas fa-pepper-hot',
+    icon: 'django',
     category: 'frontend',
     color: '#092e20',
     description: 'High-level Python web framework'
@@ -20,7 +20,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'flask',
     name: 'Flask',
-    icon: 'fas fa-flask',
+    icon: 'flask',
     category: 'frontend',
     color: '#000000',
     description: 'Lightweight Python web framework'
@@ -28,7 +28,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'react',
     name: 'React',
-    icon: 'fab fa-react',
+    icon: 'react',
     category: 'frontend',
     color: '#61dafb',
     description: 'Frontend library for building user interfaces'
@@ -36,7 +36,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'nodejs',
     name: 'Node.js',
-    icon: 'fab fa-node-js',
+    icon: 'nodejs',
     category: 'frontend',
     color: '#339933',
     description: 'JavaScript runtime for server-side development'
@@ -44,7 +44,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'express',
     name: 'Express',
-    icon: 'fas fa-server',
+    icon: 'express',
     category: 'frontend',
     color: '#000000',
     description: 'Web framework for Node.js'
@@ -52,7 +52,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'mongodb',
     name: 'MongoDB',
-    icon: 'fas fa-leaf',
+    icon: 'mongodb',
     category: 'frontend',
     color: '#47a248',
     description: 'NoSQL document database'
@@ -60,7 +60,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'wordpress',
     name: 'WordPress',
-    icon: 'fab fa-wordpress',
+    icon: 'wordpress',
     category: 'frontend',
     color: '#21759b',
     description: 'Content management system'
@@ -70,7 +70,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'tensorflow',
     name: 'TensorFlow',
-    icon: 'fas fa-brain',
+    icon: 'tensorflow',
     category: 'ai-ml',
     color: '#ff6f00',
     description: 'Open source machine learning platform'
@@ -78,7 +78,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'opencv',
     name: 'OpenCV',
-    icon: 'fas fa-eye',
+    icon: 'opencv',
     category: 'ai-ml',
     color: '#5c85d6',
     description: 'Computer vision library'
@@ -86,7 +86,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'aws',
     name: 'AWS',
-    icon: 'fab fa-aws',
+    icon: 'aws',
     category: 'ai-ml',
     color: '#ff9900',
     description: 'Amazon Web Services cloud platform'
@@ -94,7 +94,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'gcp',
     name: 'Google Cloud',
-    icon: 'fab fa-google',
+    icon: 'gcp',
     category: 'ai-ml',
     color: '#4285f4',
     description: 'Google Cloud Platform'
@@ -102,7 +102,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'powerbi',
     name: 'Power BI',
-    icon: 'fas fa-chart-bar',
+    icon: 'powerbi',
     category: 'ai-ml',
     color: '#f2c811',
     description: 'Business analytics service'
@@ -110,7 +110,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'openai',
     name: 'OpenAI',
-    icon: 'fas fa-robot',
+    icon: 'openai',
     category: 'ai-ml',
     color: '#412991',
     description: 'AI research and deployment company'
@@ -120,7 +120,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'selenium',
     name: 'Selenium',
-    icon: 'fas fa-check-circle',
+    icon: 'selenium',
     category: 'automation',
     color: '#43b02a',
     description: 'Web browser automation'
@@ -128,7 +128,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'uipath',
     name: 'UiPath',
-    icon: 'fas fa-robot',
+    icon: 'uipath',
     category: 'automation',
     color: '#d83b01',
     description: 'Robotic process automation platform'
@@ -136,7 +136,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'powerautomate',
     name: 'Power Automate',
-    icon: 'fas fa-bolt',
+    icon: 'powerautomate',
     category: 'automation',
     color: '#0078d4',
     description: 'Microsoft workflow automation'
@@ -144,7 +144,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'api',
     name: 'API',
-    icon: 'fas fa-plug',
+    icon: 'code',
     category: 'automation',
     color: '#6c757d',
     description: 'Application Programming Interface'
@@ -152,7 +152,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'zapier',
     name: 'Zapier',
-    icon: 'fas fa-bolt',
+    icon: 'zapier',
     category: 'automation',
     color: '#ff4a00',
     description: 'Workflow automation platform'
@@ -162,7 +162,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'git',
     name: 'Git',
-    icon: 'fab fa-git-alt',
+    icon: 'git',
     category: 'devops',
     color: '#f05032',
     description: 'Distributed version control system'
@@ -170,7 +170,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'gitlab',
     name: 'GitLab',
-    icon: 'fab fa-gitlab',
+    icon: 'gitlab',
     category: 'devops',
     color: '#fc6d26',
     description: 'DevOps platform'
@@ -178,7 +178,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'docker',
     name: 'Docker',
-    icon: 'fab fa-docker',
+    icon: 'docker',
     category: 'devops',
     color: '#2496ed',
     description: 'Containerization platform'
@@ -186,7 +186,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'kubernetes',
     name: 'Kubernetes',
-    icon: 'fas fa-dharmachakra',
+    icon: 'kubernetes',
     category: 'devops',
     color: '#326ce5',
     description: 'Container orchestration system'
@@ -194,7 +194,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'terraform',
     name: 'Terraform',
-    icon: 'fas fa-mountain',
+    icon: 'terraform',
     category: 'devops',
     color: '#7b42bc',
     description: 'Infrastructure as code tool'
@@ -204,7 +204,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'aftereffects',
     name: 'After Effects',
-    icon: 'fab fa-adobe',
+    icon: 'aftereffects',
     category: 'other',
     color: '#9999ff',
     description: 'Motion graphics and visual effects'
@@ -212,7 +212,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'figma',
     name: 'Figma',
-    icon: 'fas fa-paint-brush',
+    icon: 'figma',
     category: 'other',
     color: '#f24e1e',
     description: 'Collaborative interface design tool'
@@ -220,7 +220,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'blender',
     name: 'Blender',
-    icon: 'fas fa-cube',
+    icon: 'blender',
     category: 'other',
     color: '#f5792a',
     description: '3D creation suite'
@@ -228,7 +228,7 @@ export const techToolsData: TechTool[] = [
   {
     id: 'pegasus',
     name: 'Pegasus',
-    icon: 'fas fa-horse',
+    icon: 'pegasus',
     category: 'other',
     color: '#8b5cf6',
     description: 'Flying horse logo'
@@ -249,12 +249,12 @@ export const getRandomTechTools = (count: number = 12) => {
 };
 
 export const techToolCategories = [
-  { key: 'frontend', label: 'Frontend', icon: 'fas fa-desktop', color: '#61dafb' },
-  { key: 'backend', label: 'Backend', icon: 'fas fa-server', color: '#339933' },
-  { key: 'database', label: 'Database', icon: 'fas fa-database', color: '#336791' },
-  { key: 'devops', label: 'DevOps', icon: 'fas fa-tools', color: '#2496ed' },
-  { key: 'design', label: 'Design', icon: 'fas fa-paint-brush', color: '#f24e1e' },
-  { key: 'mobile', label: 'Mobile', icon: 'fas fa-mobile-alt', color: '#02569b' },
-  { key: 'ai-ml', label: 'AI/ML', icon: 'fas fa-brain', color: '#ff6f00' },
-  { key: 'other', label: 'Other', icon: 'fas fa-cog', color: '#007acc' }
+  { key: 'frontend', label: 'Frontend', icon: 'desktop', color: '#61dafb' },
+  { key: 'backend', label: 'Backend', icon: 'server', color: '#339933' },
+  { key: 'database', label: 'Database', icon: 'database', color: '#336791' },
+  { key: 'devops', label: 'DevOps', icon: 'tools', color: '#2496ed' },
+  { key: 'design', label: 'Design', icon: 'paint-brush', color: '#f24e1e' },
+  { key: 'mobile', label: 'Mobile', icon: 'mobile-alt', color: '#02569b' },
+  { key: 'ai-ml', label: 'AI/ML', icon: 'brain', color: '#ff6f00' },
+  { key: 'other', label: 'Other', icon: 'cog', color: '#007acc' }
 ] as const;

@@ -3,17 +3,17 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyles = createGlobalStyle`
   /* CSS Custom Properties (Variables) */
   :root {
-    /* Color Palette */
-    --primary-bg: #0B1D3A;
-    --secondary-bg: #1a2845;
-    --accent-green: #00FFAA;
-    --accent-pink: #FF6AFF;
+    /* Color Palette - Sleek Black & White Theme */
+    --primary-bg: #000000;
+    --secondary-bg: #111111;
+    --accent-green: #FFFFFF;
+    --accent-pink: #CCCCCC;
     --text-primary: #FFFFFF;
-    --text-secondary: #B8C5D6;
-    --text-muted: #8394A6;
-    --border-color: #2A3F5F;
-    --card-bg: #162B47;
-    --overlay-bg: rgba(11, 29, 58, 0.95);
+    --text-secondary: #CCCCCC;
+    --text-muted: #999999;
+    --border-color: #333333;
+    --card-bg: #1a1a1a;
+    --overlay-bg: rgba(0, 0, 0, 0.95);
     
     /* Typography */
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -32,11 +32,11 @@ const GlobalStyles = createGlobalStyle`
     --transition-bounce: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     
     /* Shadows */
-    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.2);
-    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
-    --shadow-glow: 0 0 30px rgba(0, 255, 170, 0.3);
-    --shadow-glow-pink: 0 0 30px rgba(255, 106, 255, 0.3);
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.7);
+    --shadow-glow: 0 0 30px rgba(255, 255, 255, 0.1);
+    --shadow-glow-pink: 0 0 30px rgba(204, 204, 204, 0.1);
   }
 
   * {

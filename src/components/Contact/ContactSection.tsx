@@ -92,7 +92,15 @@ const EmailLink = styled(motion.a)`
 `;
 
 const SocialSection = styled(motion.div)`
-  margin-bottom: 1rem;
+  margin-bottom: 6rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 8rem;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 10rem;
+  }
 `;
 
 const SocialTitle = styled.h3`
