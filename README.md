@@ -219,4 +219,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-**Built with ❤️ by Prakash Maheshwaran** | MS in CS @ SUNY Binghamton | Seeking H-1B Sponsorship Opportunities
+**Built with ❤️ by Prakash Maheshwaran** | MS in CS @ SUNY Binghamton | Seeking Opportunities
