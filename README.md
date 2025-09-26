@@ -2,7 +2,7 @@
 
 > **A cutting-edge, interactive portfolio website showcasing modern web development with React, TypeScript, and stunning 3D animations.**
 
-[![Portfolio](https://img.shields.io/badge/🌐_Portfolio-Visit_Site-00FFAA?style=for-the-badge)](https://your-portfolio-url.com)
+[![Portfolio](https://img.shields.io/badge/🌐_Portfolio-Visit_Site-00FFAA?style=for-the-badge)](https://modern-dynamic-portfolio.vercel.app/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/prakash-maheshwaran/)
 
 ## ✨ Features
@@ -177,8 +177,9 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 📞 Connect & Support
 
 ### **Professional Links**
-[![Portfolio](https://img.shields.io/badge/🌐_Portfolio-Visit_Site-00FFAA?style=for-the-badge)](https://your-portfolio-url.com)
+[![Portfolio](https://img.shields.io/badge/🌐_Portfolio-Visit_Site-00FFAA?style=for-the-badge)](https://modern-dynamic-portfolio.vercel.app/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/prakash-maheshwaran/)
+[![Bio.link](https://img.shields.io/badge/🔗_More_Ways-Contact_Me-FF6B6B?style=for-the-badge)](https://bio.link/kash_)
 [![Email](https://img.shields.io/badge/Email-Contact_Direct-D14836?style=for-the-badge&logo=gmail)](mailto:diinoprakash@gmail.com)
 
 ### **Support the Project**

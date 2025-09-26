@@ -674,6 +674,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onSectionChange }) => {
     closeDropdown();
   };
 
+  const handleBioLink = () => {
+    window.open('https://bio.link/kash_', '_blank');
+    closeDropdown();
+  };
+
   // Close dropdown when pressing Escape key or clicking outside
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -758,6 +763,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onSectionChange }) => {
                 
                 <ContactOption onClick={handleSendEmail}>
                   <OptionText>Email</OptionText>
+                </ContactOption>
+                
+                <ContactOption onClick={handleBioLink}>
+                  <OptionText>More Links</OptionText>
                 </ContactOption>
               </ContactButtons>
             </ActionSection>

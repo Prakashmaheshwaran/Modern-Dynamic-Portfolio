@@ -9,7 +9,8 @@ import {
   FaCalendarAlt, 
   FaGithub, 
   FaLinkedin,
-  FaEnvelope
+  FaEnvelope,
+  FaLink
 } from 'react-icons/fa';
 import { SiDevdotto } from 'react-icons/si';
 import { IconType } from 'react-icons';
@@ -237,6 +238,7 @@ const navItems: NavItem[] = [
   { id: 'github', label: 'GitHub', icon: FaGithub, tooltip: 'GitHub Profile', isExternal: true, url: 'https://github.com/Prakashmaheshwaran' },
   { id: 'linkedin', label: 'LinkedIn', icon: FaLinkedin, tooltip: 'LinkedIn Profile', isExternal: true, url: 'https://www.linkedin.com/in/prakash-maheshwaran/' },
   { id: 'devto', label: 'Dev.to', icon: SiDevdotto, tooltip: 'Dev.to Blog', isExternal: true, url: 'https://dev.to/prakash_maheshwaran' },
+  { id: 'biolink', label: 'Bio Link', icon: FaLink, tooltip: 'More Ways to Contact', isExternal: true, url: 'https://bio.link/kash_' },
   { id: 'email', label: 'Email', icon: FaEnvelope, tooltip: 'Send Email', isExternal: true, url: 'mailto:pmaheshwaran@binghamton.edu' }
 ];
 
