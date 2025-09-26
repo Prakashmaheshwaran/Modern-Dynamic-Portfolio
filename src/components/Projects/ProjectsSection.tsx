@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
+import { useProjectsData } from '../../hooks/useProjectsData';
+import { ProcessedProject } from '../../config/projectsConfig';
 import { getProjectsByCategory } from '../../data/projectsData';
 
 const ProjectsContainer = styled.section`
@@ -294,25 +296,193 @@ const ProjectLink = styled.a`
   }
 `;
 
+const LoadingContainer = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 2rem;
+  text-align: center;
+`;
+
+const LoadingSpinner = styled(motion.div)`
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top: 3px solid var(--accent-green);
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+`;
+
+const ErrorContainer = styled(motion.div)`
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 3rem 2rem;
+  text-align: center;
+  margin-top: 2rem;
+`;
+
+const RetryButton = styled(motion.button)`
+  padding: 12px 24px;
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
+  border: none;
+  border-radius: var(--border-radius);
+  color: var(--primary-bg);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--transition-medium);
+  margin-top: 1rem;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+  }
+`;
+
+const EmptyState = styled(motion.div)`
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  padding: 4rem 2rem;
+  text-align: center;
+  margin-top: 2rem;
+
+  h3 {
+    font-size: 1.5rem;
+    color: var(--accent-green);
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+`;
+
+const ProjectMetadata = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  
+  @media (max-width: 768px) {
+    justify-content: center;
+    gap: 0.75rem;
+  }
+`;
+
+const MetadataItem = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  
+  i {
+    color: var(--accent-green);
+  }
+`;
+
+const ViewMoreContainer = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+  }
+`;
+
+const ViewMoreButton = styled(motion.a)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
+  border: none;
+  border-radius: var(--border-radius);
+  color: var(--primary-bg);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-medium);
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(120, 119, 198, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  i {
+    font-size: 1.1rem;
+    transition: transform var(--transition-medium);
+  }
+
+  &:hover i {
+    transform: translateX(2px);
+  }
+
+  @media (max-width: 768px) {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+    
+    i {
+      font-size: 1rem;
+    }
+  }
+`;
+
 
 const ProjectsSection: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState('all');
+  const [showDynamic, setShowDynamic] = useState(true);
   const { ref: sectionRef, isIntersecting } = useIntersectionObserver({
     threshold: 0.1,
     triggerOnce: true
   });
 
-  const filteredProjects = useMemo(() => {
-    return getProjectsByCategory(activeFilter);
-  }, [activeFilter]);
+  const { projects: githubProjects, loading, error, refetch } = useProjectsData();
 
-  const filters = [
-    { key: 'all', label: 'All Projects' },
-    { key: 'automation', label: 'Automation' },
-    { key: 'ml', label: 'Machine Learning' },
-    { key: 'web', label: 'Web Development' },
-    { key: 'research', label: 'Research' }
-  ];
+  const filteredProjects = useMemo(() => {
+    if (showDynamic && githubProjects.length > 0) {
+      // Filter GitHub projects by language if not 'all'
+      if (activeFilter === 'all') {
+        return githubProjects;
+      }
+      return githubProjects.filter(project => 
+        project.language.toLowerCase() === activeFilter.toLowerCase()
+      );
+    }
+    // Fallback to static data with filtering
+    return getProjectsByCategory(activeFilter);
+  }, [activeFilter, githubProjects, showDynamic]);
+
+  const filters = useMemo(() => {
+    if (showDynamic && githubProjects.length > 0) {
+      // For GitHub projects, show language-based filters
+      const languages = Array.from(new Set(githubProjects.map(p => p.language).filter(Boolean)));
+      return [
+        { key: 'all', label: 'All Projects' },
+        ...languages.slice(0, 4).map(lang => ({ key: lang.toLowerCase(), label: lang }))
+      ];
+    }
+    // Static filters for fallback data
+    return [
+      { key: 'all', label: 'All Projects' },
+      { key: 'automation', label: 'Automation' },
+      { key: 'ml', label: 'Machine Learning' },
+      { key: 'web', label: 'Web Development' },
+      { key: 'research', label: 'Research' }
+    ];
+  }, [showDynamic, githubProjects]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -336,6 +506,96 @@ const ProjectsSection: React.FC = () => {
       }
     }
   };
+
+  const handleProjectClick = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short' 
+    });
+  };
+
+  const renderGitHubProjectCard = (project: ProcessedProject, index: number) => (
+    <ProjectCard
+      key={`github-${project.id}`}
+      variants={cardVariants}
+      layout
+      whileHover={{ scale: 1.01 }}
+      transition={{ duration: 0.3 }}
+      onClick={() => handleProjectClick(project.github)}
+    >
+      <ProjectImage>
+        {project.title.split(' ').map(word => word[0]).join('').toUpperCase()}
+      </ProjectImage>
+      <ProjectContent>
+        <ProjectTitle>{project.title}</ProjectTitle>
+        <ProjectDescription>{project.description}</ProjectDescription>
+        <ProjectMetadata>
+          <MetadataItem>
+            <i className="fas fa-star" /> {project.stars}
+          </MetadataItem>
+          <MetadataItem>
+            <i className="fas fa-code" /> {project.language}
+          </MetadataItem>
+          <MetadataItem>
+            <i className="fas fa-calendar" /> {formatDate(project.lastUpdated)}
+          </MetadataItem>
+          {project.isForked && (
+            <MetadataItem>
+              <i className="fas fa-code-branch" /> Fork
+            </MetadataItem>
+          )}
+        </ProjectMetadata>
+        <ProjectTech>
+          {project.technologies.slice(0, 4).map(tech => (
+            <TechTag key={tech}>{tech}</TechTag>
+          ))}
+        </ProjectTech>
+        <ProjectLinks>
+          <ProjectLink href={project.github} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>
+            <i className="fab fa-github" /> Code
+          </ProjectLink>
+          <ProjectLink href={project.demo} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>
+            <i className="fas fa-external-link-alt" /> View
+          </ProjectLink>
+        </ProjectLinks>
+      </ProjectContent>
+    </ProjectCard>
+  );
+
+  const renderStaticProjectCard = (project: any, index: number) => (
+    <ProjectCard
+      key={`static-${project.id}`}
+      variants={cardVariants}
+      layout
+      whileHover={{ scale: 1.01 }}
+      transition={{ duration: 0.3 }}
+    >
+      <ProjectImage>
+        {project.title.split(' ').map((word: string) => word[0]).join('').toUpperCase()}
+      </ProjectImage>
+      <ProjectContent>
+        <ProjectTitle>{project.title}</ProjectTitle>
+        <ProjectDescription>{project.description}</ProjectDescription>
+        <ProjectTech>
+          {project.technologies.slice(0, 4).map((tech: string) => (
+            <TechTag key={tech}>{tech}</TechTag>
+          ))}
+        </ProjectTech>
+        <ProjectLinks>
+          <ProjectLink href={project.github} target="_blank" rel="noopener">
+            <i className="fab fa-github" /> Code
+          </ProjectLink>
+          <ProjectLink href={project.demo} target="_blank" rel="noopener">
+            <i className="fas fa-external-link-alt" /> Demo
+          </ProjectLink>
+        </ProjectLinks>
+      </ProjectContent>
+    </ProjectCard>
+  );
 
   return (
     <ProjectsContainer ref={sectionRef} id="projects">
@@ -368,44 +628,94 @@ const ProjectsSection: React.FC = () => {
           ))}
         </ProjectFilters>
 
-        <ProjectsGrid
-          variants={containerVariants}
-          initial="hidden"
-          animate={isIntersecting ? "visible" : "hidden"}
-        >
-          <AnimatePresence mode="wait">
-            {filteredProjects.map((project, index) => (
-              <ProjectCard
-                key={project.id}
-                variants={cardVariants}
-                layout
-                whileHover={{ scale: 1.01 }}
-                transition={{ duration: 0.3 }}
+        {loading ? (
+          <LoadingContainer
+            initial={{ opacity: 0, y: 20 }}
+            animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <div>
+              <LoadingSpinner
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              />
+              <p>Loading GitHub projects...</p>
+            </div>
+          </LoadingContainer>
+        ) : error && showDynamic ? (
+          <ErrorContainer
+            initial={{ opacity: 0, y: 20 }}
+            animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <h3>Unable to Load GitHub Projects</h3>
+            <p>{error}</p>
+            <RetryButton
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                refetch();
+                // Also toggle to static if retry fails
+                setTimeout(() => setShowDynamic(false), 5000);
+              }}
+            >
+              Try Again
+            </RetryButton>
+            <RetryButton
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowDynamic(false)}
+              style={{ marginLeft: '1rem', background: 'transparent', border: '1px solid var(--accent-green)', color: 'var(--accent-green)' }}
+            >
+              Show Static Projects
+            </RetryButton>
+          </ErrorContainer>
+        ) : filteredProjects.length === 0 ? (
+          <EmptyState
+            initial={{ opacity: 0, y: 20 }}
+            animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <h3>No Projects Available</h3>
+            <p>
+              I'm constantly working on exciting projects involving automation, 
+              machine learning, and web development. Check back soon for updates!
+            </p>
+          </EmptyState>
+        ) : (
+          <>
+            <ProjectsGrid
+              variants={containerVariants}
+              initial="hidden"
+              animate={isIntersecting ? "visible" : "hidden"}
+            >
+              <AnimatePresence mode="wait">
+                {filteredProjects.map((project, index) => 
+                  showDynamic && githubProjects.length > 0
+                    ? renderGitHubProjectCard(project as ProcessedProject, index)
+                    : renderStaticProjectCard(project, index)
+                )}
+              </AnimatePresence>
+            </ProjectsGrid>
+            
+            <ViewMoreContainer
+              initial={{ opacity: 0, y: 20 }}
+              animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+            >
+              <ViewMoreButton
+                href="https://github.com/Prakashmaheshwaran"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <ProjectImage>
-                  {project.title.split(' ').map(word => word[0]).join('').toUpperCase()}
-                </ProjectImage>
-                <ProjectContent>
-                  <ProjectTitle>{project.title}</ProjectTitle>
-                  <ProjectDescription>{project.description}</ProjectDescription>
-                  <ProjectTech>
-                    {project.technologies.slice(0, 4).map(tech => (
-                      <TechTag key={tech}>{tech}</TechTag>
-                    ))}
-                  </ProjectTech>
-                  <ProjectLinks>
-                    <ProjectLink href={project.github} target="_blank" rel="noopener">
-                      <i className="fab fa-github" /> Code
-                    </ProjectLink>
-                    <ProjectLink href={project.demo} target="_blank" rel="noopener">
-                      <i className="fas fa-external-link-alt" /> Demo
-                    </ProjectLink>
-                  </ProjectLinks>
-                </ProjectContent>
-              </ProjectCard>
-            ))}
-          </AnimatePresence>
-        </ProjectsGrid>
+                View More Projects
+                <i className="fab fa-github" />
+              </ViewMoreButton>
+            </ViewMoreContainer>
+          </>
+        )}
       </div>
     </ProjectsContainer>
   );

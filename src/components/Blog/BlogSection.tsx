@@ -192,6 +192,66 @@ const BlogDescription = styled.p`
   }
 `;
 
+const BlogMetadata = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  
+  @media (max-width: 768px) {
+    gap: 0.75rem;
+    margin-bottom: 0.4rem;
+  }
+`;
+
+const MetadataItem = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  
+  i {
+    color: var(--accent-green);
+    font-size: 0.7rem;
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 0.7rem;
+    
+    i {
+      font-size: 0.65rem;
+    }
+  }
+`;
+
+const BlogTags = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.6rem;
+  
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const TagItem = styled.span`
+  background: var(--primary-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 500;
+  border-radius: 2px;
+  transition: all var(--transition-fast);
+  
+  &:hover {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+  }
+`;
+
 const ReadMoreButton = styled(motion.button)`
   background: transparent;
   border: 1px solid var(--accent-green);
@@ -282,6 +342,61 @@ const EmptyState = styled(motion.div)`
   }
 `;
 
+const ViewMoreContainer = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+  }
+`;
+
+const ViewMoreButton = styled(motion.a)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
+  border: none;
+  border-radius: var(--border-radius);
+  color: var(--primary-bg);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--transition-medium);
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(120, 119, 198, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  i {
+    font-size: 1.1rem;
+    transition: transform var(--transition-medium);
+  }
+
+  &:hover i {
+    transform: translateX(2px);
+  }
+
+  @media (max-width: 768px) {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+    
+    i {
+      font-size: 1rem;
+    }
+  }
+`;
+
 const BlogSection: React.FC = () => {
   const { ref: sectionRef, isIntersecting } = useIntersectionObserver({
     threshold: 0.2,
@@ -329,8 +444,16 @@ const BlogSection: React.FC = () => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
   const renderBlogCard = (blog: BlogPost, index: number) => (
-    <BlogCardWrapper key={`${blog.title}-${index}`}>
+    <BlogCardWrapper key={`${blog.id || blog.title}-${index}`}>
       <BlogCard
         variants={cardVariants}
         whileHover={{ scale: 1.02 }}
@@ -341,6 +464,40 @@ const BlogSection: React.FC = () => {
         <BlogCardContent>
           <BlogCardTitle>{blog.title}</BlogCardTitle>
           <BlogDescription>{blog.description}</BlogDescription>
+          
+          {/* Show metadata for Dev.to posts */}
+          {blog.published_at && (
+            <BlogMetadata>
+              <MetadataItem>
+                <i className="fas fa-clock" />
+                {blog.reading_time_minutes || 1} min read
+              </MetadataItem>
+              <MetadataItem>
+                <i className="fas fa-heart" />
+                {blog.public_reactions_count || 0}
+              </MetadataItem>
+              <MetadataItem>
+                <i className="fas fa-calendar" />
+                {formatDate(blog.published_at)}
+              </MetadataItem>
+              {blog.comments_count > 0 && (
+                <MetadataItem>
+                  <i className="fas fa-comment" />
+                  {blog.comments_count}
+                </MetadataItem>
+              )}
+            </BlogMetadata>
+          )}
+          
+          {/* Show tags for Dev.to posts */}
+          {blog.tag_list && blog.tag_list.length > 0 && (
+            <BlogTags>
+              {blog.tag_list.slice(0, 3).map(tag => (
+                <TagItem key={tag}>#{tag}</TagItem>
+              ))}
+            </BlogTags>
+          )}
+          
           <ReadMoreButton
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -397,13 +554,32 @@ const BlogSection: React.FC = () => {
     }
 
     return (
-      <BlogGrid
-        variants={containerVariants}
-        initial="hidden"
-        animate={isIntersecting ? "visible" : "hidden"}
-      >
-        {blogs.map((blog, index) => renderBlogCard(blog, index))}
-      </BlogGrid>
+      <>
+        <BlogGrid
+          variants={containerVariants}
+          initial="hidden"
+          animate={isIntersecting ? "visible" : "hidden"}
+        >
+          {blogs.map((blog, index) => renderBlogCard(blog, index))}
+        </BlogGrid>
+        
+        <ViewMoreContainer
+          initial={{ opacity: 0, y: 20 }}
+          animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          <ViewMoreButton
+            href="https://dev.to/prakash_maheshwaran"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            View More Articles
+            <i className="fas fa-external-link-alt" />
+          </ViewMoreButton>
+        </ViewMoreContainer>
+      </>
     );
   };
 

@@ -6,7 +6,6 @@ import { scrollToSection } from '../../utils/scrollUtils';
 import { 
   FaHome, 
   FaRoute, 
-  FaFileAlt, 
   FaCalendarAlt, 
   FaGithub, 
   FaLinkedin,
@@ -234,7 +233,6 @@ const Tooltip = styled(motion.div)`
 const navItems: NavItem[] = [
   { id: 'hero', label: 'Home', icon: FaHome, tooltip: 'Home' },
   { id: 'about', label: 'Roadmap', icon: FaRoute, tooltip: 'About & Roadmap' },
-  { id: 'resume', label: 'Resume', icon: FaFileAlt, tooltip: 'Download Resume', isExternal: true, url: '/resume.pdf' },
   { id: 'meeting', label: 'Schedule', icon: FaCalendarAlt, tooltip: 'Schedule a Meeting', isExternal: true, url: 'https://calendar.app.google/QSuCRsA3F3YooueM6' },
   { id: 'github', label: 'GitHub', icon: FaGithub, tooltip: 'GitHub Profile', isExternal: true, url: 'https://github.com/Prakashmaheshwaran' },
   { id: 'linkedin', label: 'LinkedIn', icon: FaLinkedin, tooltip: 'LinkedIn Profile', isExternal: true, url: 'https://www.linkedin.com/in/prakash-maheshwaran/' },

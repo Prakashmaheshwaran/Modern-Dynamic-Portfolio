@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react';
-import { BlogPost, BLOG_CONFIG } from '../config/blogConfig';
+import { 
+  BlogPost, 
+  DevToBlogPost, 
+  BLOG_CONFIG, 
+  processDevToBlogPost, 
+  sortAndFilterBlogs 
+} from '../config/blogConfig';
 
 interface UseBlogDataReturn {
   blogs: BlogPost[];
@@ -48,10 +54,10 @@ export const useBlogData = (): UseBlogDataReturn => {
       console.log('Is array:', Array.isArray(rawData));
       
       // Handle different webhook response formats
-      let dataArray: any[] = [];
+      let dataArray: DevToBlogPost[] = [];
       
       if (Array.isArray(rawData)) {
-        // Direct array response
+        // Direct array response (expected for Dev.to API)
         dataArray = rawData;
       } else if (rawData && typeof rawData === 'object') {
         // Check for common webhook response patterns
@@ -64,6 +70,9 @@ export const useBlogData = (): UseBlogDataReturn => {
         } else if (rawData.posts && Array.isArray(rawData.posts)) {
           // Response wrapped in { posts: [...] }
           dataArray = rawData.posts;
+        } else if (rawData.articles && Array.isArray(rawData.articles)) {
+          // Response wrapped in { articles: [...] }
+          dataArray = rawData.articles;
         } else if (rawData.items && Array.isArray(rawData.items)) {
           // Response wrapped in { items: [...] }
           dataArray = rawData.items;
@@ -78,26 +87,34 @@ export const useBlogData = (): UseBlogDataReturn => {
       
       console.log('Extracted data array:', dataArray);
 
-      // Filter and limit blogs
-      const validBlogs = dataArray
-        .filter((blog: any) => {
-          const isValid = blog && 
-            typeof blog.title === 'string' && 
-            typeof blog.description === 'string' && 
-            typeof blog.url === 'string' && 
-            typeof blog.cover_image === 'string';
-          
-          if (!isValid) {
-            console.warn('Invalid blog post structure:', blog);
-          }
-          
-          return isValid;
-        })
-        .slice(0, BLOG_CONFIG.MAX_BLOGS);
+      // Validate that we have Dev.to blog structure
+      const validBlogs = dataArray.filter((blog: any) => {
+        const isValid = blog && 
+          typeof blog.id === 'number' && 
+          typeof blog.title === 'string' && 
+          typeof blog.description === 'string' && 
+          typeof blog.url === 'string' &&
+          typeof blog.published === 'boolean' &&
+          typeof blog.type_of === 'string';
+        
+        if (!isValid) {
+          console.warn('Invalid Dev.to blog post structure:', blog);
+        }
+        
+        return isValid;
+      }) as DevToBlogPost[];
 
-      console.log('Valid blogs found:', validBlogs.length);
-      console.log('Processed blogs:', validBlogs);
-      setBlogs(validBlogs);
+      console.log('Valid Dev.to blogs found:', validBlogs.length);
+
+      // Sort and filter the blogs to get the top 9
+      const filteredAndSorted = sortAndFilterBlogs(validBlogs);
+      console.log('Filtered and sorted blogs:', filteredAndSorted.length);
+
+      // Process the blogs into our display format
+      const processedBlogs = filteredAndSorted.map(processDevToBlogPost);
+      console.log('Processed blogs:', processedBlogs);
+
+      setBlogs(processedBlogs);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch blogs';
       setError(errorMessage);
