@@ -1,0 +1,19 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Laptop base/bottom -->
+  <path d="M4 24 H28 C29.1 24 30 24.9 30 26 C30 27.1 29.1 28 28 28 H4 C2.9 28 2 27.1 2 26 C2 24.9 2.9 24 4 24 Z" fill="#3B82F6"/>
+  
+  <!-- Laptop screen frame -->
+  <path d="M7 6 C6.4 6 6 6.4 6 7 V21 C6 21.6 6.4 22 7 22 H25 C25.6 22 26 21.6 26 21 V7 C26 6.4 25.6 6 25 6 H7 Z" fill="#1E40AF"/>
+  
+  <!-- Screen inner area -->
+  <rect x="8" y="8" width="16" height="12" rx="1" fill="#60A5FA"/>
+  
+  <!-- Keyboard area highlight -->
+  <ellipse cx="16" cy="23" rx="4" ry="0.5" fill="#2563EB"/>
+  
+  <!-- Screen reflection for depth -->
+  <rect x="8" y="8" width="4" height="4" rx="0.5" fill="#93C5FD" opacity="0.6"/>
+  
+  <!-- Power button indicator -->
+  <circle cx="16" cy="25.5" r="0.5" fill="#60A5FA"/>
+</svg>
