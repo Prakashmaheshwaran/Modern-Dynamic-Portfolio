@@ -9,12 +9,18 @@ A modern, interactive portfolio website built with React, TypeScript, and Three.
    npm install --legacy-peer-deps
    ```
 
-2. **Start Development Server**
+2. **Environment Setup** (Optional)
+   Create a `.env` file in the root directory:
+   ```bash
+   REACT_APP_BLOG_WEBHOOK_URL=your-webhook
+   ```
+
+3. **Start Development Server**
    ```bash
    npm start
    ```
 
-3. **Open Browser**
+4. **Open Browser**
    Navigate to `http://localhost:3000`
 
 ## ✨ Features
@@ -74,6 +80,7 @@ src/
 │   ├── About/           # About section with timeline
 │   ├── Projects/        # Interactive project gallery
 │   ├── Skills/          # 3D skills visualization
+│   ├── Blog/            # Dynamic blog section
 │   ├── Experience/      # Accordion experience section
 │   ├── Contact/         # Contact form and info
 │   ├── Navigation/      # Responsive navigation
@@ -86,7 +93,10 @@ src/
 ├── hooks/               # Custom React hooks
 │   ├── useScrollSpy.ts  # Section navigation
 │   ├── useIntersectionObserver.ts # Scroll animations
-│   └── useLocalStorage.ts # Persistent settings
+│   ├── useLocalStorage.ts # Persistent settings
+│   └── useBlogData.ts   # Blog data fetching
+├── config/              # Configuration files
+│   └── blogConfig.ts    # Blog webhook configuration
 ├── utils/               # Utility functions
 │   ├── scrollUtils.ts   # Smooth scrolling helpers
 │   └── reportWebVitals.ts # Performance monitoring
@@ -128,6 +138,13 @@ src/
 - 4 detailed experience entries
 - Achievement lists and technology tags
 - Current positions highlighted
+
+### **Blog Section**
+- Dynamic blog posts fetched from n8n webhook
+- Responsive grid layout (up to 9 posts)
+- Interactive blog cards with hover effects
+- Loading states and error handling
+- Direct links to external blog posts
 
 ### **Contact Section**
 - Interactive contact form with validation

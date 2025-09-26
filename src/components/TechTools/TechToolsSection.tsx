@@ -47,9 +47,6 @@ const TechToolsGrid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 2rem;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 2rem;
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));

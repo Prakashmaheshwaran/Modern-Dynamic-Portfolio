@@ -8,6 +8,14 @@ import LogoIcon from '../UI/LogoIcon';
 const SkillsContainer = styled.section`
   padding: var(--section-padding);
   background: var(--secondary-bg);
+  
+  @media (max-width: 768px) {
+    padding: 60px 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 40px 0;
+  }
 `;
 
 const SkillsGrid = styled(motion.div)`
@@ -19,6 +27,12 @@ const SkillsGrid = styled(motion.div)`
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 1.5rem;
+    margin-top: 1.5rem;
   }
 `;
 
@@ -48,12 +62,40 @@ const SkillCategory = styled(motion.div)`
       font-size: 1.2rem;
     }
   }
+  
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    
+    h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1.25rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    padding: 1.25rem;
+    
+    h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+  }
 `;
 
 const SkillItems = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: 1rem;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 0.875rem;
+  }
+  
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 0.75rem;
+  }
 `;
 
 const SkillItem = styled(motion.div)`
@@ -72,6 +114,16 @@ const SkillItem = styled(motion.div)`
     border-color: var(--accent-green);
     box-shadow: var(--shadow-sm);
   }
+  
+  @media (max-width: 768px) {
+    padding: 0.875rem;
+    gap: 0.375rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.75rem;
+    gap: 0.25rem;
+  }
 `;
 
 const SkillIcon = styled.div<{ color: string }>`
@@ -82,6 +134,18 @@ const SkillIcon = styled.div<{ color: string }>`
   justify-content: center;
   width: 40px;
   height: 40px;
+  
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+    width: 35px;
+    height: 35px;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 const SkillName = styled.span`
@@ -90,6 +154,14 @@ const SkillName = styled.span`
   font-weight: 500;
   text-align: center;
   line-height: 1.2;
+  
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.75rem;
+  }
 `;
 
 const SkillsSection: React.FC = () => {

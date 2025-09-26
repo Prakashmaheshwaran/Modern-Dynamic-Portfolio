@@ -58,6 +58,10 @@ const GlobalStyles = createGlobalStyle`
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    
+    /* Mobile optimizations */
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
   }
 
   ::selection {
@@ -134,9 +138,24 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .container {
-    max-width: 1200px;
+    max-width: 70%;
     margin: 0 auto;
     padding: var(--container-padding);
+    
+    /* Mobile responsive container */
+    @media (max-width: 1024px) {
+      max-width: 85%;
+    }
+    
+    @media (max-width: 768px) {
+      max-width: 95%;
+      padding: 0 1rem;
+    }
+    
+    @media (max-width: 480px) {
+      max-width: 100%;
+      padding: 0 10% 0 0;
+    }
   }
 
   .text-gradient {
@@ -152,6 +171,51 @@ const GlobalStyles = createGlobalStyle`
 
   .hidden {
     display: none !important;
+  }
+
+  /* Mobile-specific improvements */
+  @media (max-width: 768px) {
+    /* Improve touch targets */
+    button, a, input, select, textarea {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Better spacing for mobile */
+    h1, h2, h3, h4, h5, h6 {
+      margin-bottom: 0.75rem;
+    }
+    
+    p {
+      margin-bottom: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    /* Even better touch targets for small screens */
+    button, a, input, select, textarea {
+      min-height: 48px;
+      min-width: 48px;
+    }
+    
+    /* Tighter spacing for small screens */
+    h1, h2, h3, h4, h5, h6 {
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      margin-bottom: 0.75rem;
+    }
+    
+    /* Add right padding to all sections for navigation clearance */
+    section {
+      padding-right: 10% !important;
+    }
+    
+    /* Ensure all content containers have right padding */
+    .container, [class*="Container"], [class*="Section"] {
+      padding-right: 10% !important;
+    }
   }
 `;
 

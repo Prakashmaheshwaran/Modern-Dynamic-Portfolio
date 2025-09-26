@@ -33,6 +33,14 @@ const AboutContainer = styled.section`
     position: relative;
     z-index: 1;
   }
+  
+  @media (max-width: 768px) {
+    padding: 1rem 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.75rem 0;
+  }
 `;
 
 const SectionHeader = styled.div`
@@ -50,6 +58,14 @@ const SectionHeader = styled.div`
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--accent-green), var(--accent-pink), transparent);
     border-radius: 2px;
+  }
+  
+  @media (max-width: 768px) {
+    margin-bottom: 2rem;
+  }
+  
+  @media (max-width: 480px) {
+    margin-bottom: 1.5rem;
   }
 `;
 
@@ -89,6 +105,17 @@ const SectionSubtitle = styled(motion.p)`
   color: var(--text-secondary);
   max-width: 600px;
   margin: 0 auto;
+  
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 1rem;
+    padding: 0 0.5rem;
+  }
 `;
 
 const AboutContent = styled(motion.div)`
@@ -117,6 +144,14 @@ const AboutContent = styled(motion.div)`
     &::before {
       display: none;
     }
+  }
+  
+  @media (max-width: 768px) {
+    gap: 1.5rem;
+  }
+  
+  @media (max-width: 480px) {
+    gap: 1rem;
   }
 `;
 
@@ -226,6 +261,23 @@ const Timeline = styled.div`
     width: 2px;
     background: var(--border-color);
   }
+  
+  @media (max-width: 768px) {
+    padding-left: 1.5rem;
+    
+    &::before {
+      left: 8px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    padding-left: 1.25rem;
+    
+    &::before {
+      left: 6px;
+      width: 1px;
+    }
+  }
 `;
 
 const TimelineItem = styled(motion.div)`
@@ -242,6 +294,28 @@ const TimelineItem = styled(motion.div)`
     background: var(--accent-green);
     border-radius: 50%;
     border: 3px solid var(--primary-bg);
+  }
+  
+  @media (max-width: 768px) {
+    margin-bottom: 1.5rem;
+    
+    &::before {
+      left: -20px;
+      width: 10px;
+      height: 10px;
+      border: 2px solid var(--primary-bg);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    margin-bottom: 1.25rem;
+    
+    &::before {
+      left: -18px;
+      width: 8px;
+      height: 8px;
+      border: 2px solid var(--primary-bg);
+    }
   }
 `;
 
@@ -261,6 +335,34 @@ const TimelineContent = styled.div`
   p {
     color: var(--text-muted);
     margin-top: 0.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    h4 {
+      font-size: 1.1rem;
+    }
+    
+    .timeline-date {
+      font-size: 0.85rem;
+    }
+    
+    p {
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    h4 {
+      font-size: 1rem;
+    }
+    
+    .timeline-date {
+      font-size: 0.8rem;
+    }
+    
+    p {
+      font-size: 0.85rem;
+    }
   }
 `;
 
