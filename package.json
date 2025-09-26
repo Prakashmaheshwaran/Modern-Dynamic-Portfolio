@@ -1,6 +1,24 @@
 {
-  "name": "prakash-portfolio-react",
+  "name": "modern-dynamic-portfolio",
   "version": "1.0.0",
+  "description": "A cutting-edge, interactive portfolio website showcasing modern web development with React, TypeScript, and stunning 3D animations. Features dynamic content integration, responsive design, and optimized performance.",
+  "keywords": [
+    "portfolio",
+    "react",
+    "typescript",
+    "3d-animations",
+    "three-js",
+    "react-three-fiber",
+    "framer-motion",
+    "responsive-design",
+    "modern-web-development",
+    "interactive-ui",
+    "dynamic-content",
+    "personal-website",
+    "developer-portfolio",
+    "web-animations",
+    "styled-components"
+  ],
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
