@@ -24,10 +24,7 @@ export const useProjectsData = (): UseProjectsDataReturn => {
       setLoading(true);
       setError(null);
 
-      // Check if webhook URL is configured
-      if (!PROJECTS_CONFIG.WEBHOOK_URL) {
-        throw new Error('Projects webhook URL is not configured. Please set REACT_APP_PROJECT_WEBHOOK_URL in your environment variables.');
-      }
+      // Webhook URL is hardcoded - no env check needed
 
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), PROJECTS_CONFIG.TIMEOUT);

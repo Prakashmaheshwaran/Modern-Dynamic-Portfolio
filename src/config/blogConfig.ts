@@ -1,7 +1,7 @@
 // Blog configuration
 export const BLOG_CONFIG = {
-  // Webhook URL for fetching blog data
-  WEBHOOK_URL: process.env.REACT_APP_BLOG_WEBHOOK_URL,
+  // Hardcoded Dev.to API URL - unauthenticated (generous limits)
+  WEBHOOK_URL: 'https://dev.to/api/articles?username=prakash_maheshwaran',
   
   // Maximum number of blogs to display
   MAX_BLOGS: 9,
@@ -11,7 +11,7 @@ export const BLOG_CONFIG = {
   
   // Minimum metrics for blog quality filtering
   MIN_READING_TIME: 1, // Minimum reading time in minutes
-  PRIORITY_TAGS: ['javascript', 'typescript', 'python', 'react', 'node', 'automation', 'ai', 'ml'], // Priority tags for sorting
+  PRIORITY_TAGS: ['javascript', 'typescript', 'python', 'react', 'node', 'automation', 'ai', 'ml'], // Priority tags
 };
 
 // Dev.to API response structure

@@ -24,10 +24,7 @@ export const useBlogData = (): UseBlogDataReturn => {
       setLoading(true);
       setError(null);
 
-      // Check if webhook URL is configured
-      if (!BLOG_CONFIG.WEBHOOK_URL) {
-        throw new Error('Blog webhook URL is not configured. Please set REACT_APP_BLOG_WEBHOOK_URL in your environment variables.');
-      }
+      // Webhook URL is hardcoded - no env check needed
 
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), BLOG_CONFIG.TIMEOUT);

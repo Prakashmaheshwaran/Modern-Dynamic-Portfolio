@@ -33,10 +33,11 @@ export interface ProcessedProject {
 }
 
 export const PROJECTS_CONFIG = {
-  WEBHOOK_URL: process.env.REACT_APP_PROJECT_WEBHOOK_URL || '',
+  // Hardcoded GitHub API URL - unauthenticated (60 req/hour limit)
+  WEBHOOK_URL: 'https://api.github.com/users/Prakashmaheshwaran/repos',
   TIMEOUT: 15000, // 15 seconds
   MAX_PROJECTS: 9, // Top 9 projects
-  FALLBACK_MESSAGE: 'Unable to load GitHub projects. Please check your configuration.',
+  FALLBACK_MESSAGE: 'Unable to load GitHub projects. Please try again later.',
   MIN_DESCRIPTION_LENGTH: 10, // Minimum description length to include project
   EXCLUDED_LANGUAGES: ['null'], // Languages to exclude
   PRIORITY_LANGUAGES: ['TypeScript', 'Python', 'JavaScript', 'C++'], // Languages to prioritize
