@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { 
-  BlogPost, 
-  DevToBlogPost, 
-  BLOG_CONFIG, 
-  processDevToBlogPost, 
-  sortAndFilterBlogs 
+import {
+  BlogPost,
+  DevToBlogPost,
+  BLOG_CONFIG,
+  processDevToBlogPost,
+  sortAndFilterBlogs
 } from '../config/blogConfig';
 
 interface UseBlogDataReturn {
@@ -44,15 +44,15 @@ export const useBlogData = (): UseBlogDataReturn => {
       }
 
       const rawData = await response.json();
-      
+
       // Debug: Log the received data structure
       console.log('Received webhook data:', rawData);
       console.log('Data type:', typeof rawData);
       console.log('Is array:', Array.isArray(rawData));
-      
+
       // Handle different webhook response formats
       let dataArray: DevToBlogPost[] = [];
-      
+
       if (Array.isArray(rawData)) {
         // Direct array response (expected for Dev.to API)
         dataArray = rawData;
@@ -81,23 +81,22 @@ export const useBlogData = (): UseBlogDataReturn => {
         console.error('Unexpected data format:', rawData);
         throw new Error('Invalid data format: expected an object or array');
       }
-      
+
       console.log('Extracted data array:', dataArray);
 
       // Validate that we have Dev.to blog structure
       const validBlogs = dataArray.filter((blog: any) => {
-        const isValid = blog && 
-          typeof blog.id === 'number' && 
-          typeof blog.title === 'string' && 
-          typeof blog.description === 'string' && 
+        const isValid = blog &&
+          typeof blog.id === 'number' &&
+          typeof blog.title === 'string' &&
+          typeof blog.description === 'string' &&
           typeof blog.url === 'string' &&
-          typeof blog.published === 'boolean' &&
           typeof blog.type_of === 'string';
-        
+
         if (!isValid) {
           console.warn('Invalid Dev.to blog post structure:', blog);
         }
-        
+
         return isValid;
       }) as DevToBlogPost[];
 
