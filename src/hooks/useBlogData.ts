@@ -43,30 +43,54 @@ export const useBlogData = (): UseBlogDataReturn => {
 
       const rawData = await response.json();
 
-      // Dev.to API returns a direct JSON array
-      if (!Array.isArray(rawData)) {
-        console.error('Unexpected data format from Dev.to API:', typeof rawData);
-        throw new Error('Invalid data format: expected an array from Dev.to API');
+      // Process received data
+
+      // Handle different webhook response formats
+      let dataArray: DevToBlogPost[] = [];
+
+      if (Array.isArray(rawData)) {
+        // Direct array response (expected for Dev.to API)
+        dataArray = rawData;
+      } else if (rawData && typeof rawData === 'object') {
+        // Check for common webhook response patterns
+        if (rawData.data && Array.isArray(rawData.data)) {
+          // Response wrapped in { data: [...] }
+          dataArray = rawData.data;
+        } else if (rawData.blogs && Array.isArray(rawData.blogs)) {
+          // Response wrapped in { blogs: [...] }
+          dataArray = rawData.blogs;
+        } else if (rawData.posts && Array.isArray(rawData.posts)) {
+          // Response wrapped in { posts: [...] }
+          dataArray = rawData.posts;
+        } else if (rawData.articles && Array.isArray(rawData.articles)) {
+          // Response wrapped in { articles: [...] }
+          dataArray = rawData.articles;
+        } else if (rawData.items && Array.isArray(rawData.items)) {
+          // Response wrapped in { items: [...] }
+          dataArray = rawData.items;
+        } else {
+          // Single blog object - wrap it in an array
+          dataArray = [rawData];
+        }
+      } else {
+        console.error('Unexpected data format:', rawData);
+        throw new Error('Invalid data format: expected an object or array');
       }
 
       // Validate that we have Dev.to blog structure
-      // Note: Dev.to public API only returns published articles, so 'published' field is absent
-      const validBlogs = rawData.filter((blog: any) => {
-        const isValid = blog &&
+      // Note: public API doesn't return `published` boolean — all returned articles are published
+      const validBlogs = dataArray.filter((blog: any) => {
+        return blog &&
           typeof blog.id === 'number' &&
           typeof blog.title === 'string' &&
           typeof blog.description === 'string' &&
-          typeof blog.url === 'string' &&
-          typeof blog.type_of === 'string';
-
-        if (!isValid) {
-          console.warn('Invalid Dev.to blog post structure:', blog);
-        }
-
-        return isValid;
+          typeof blog.url === 'string';
       }) as DevToBlogPost[];
 
+      // Sort and filter the blogs to get the top 9
       const filteredAndSorted = sortAndFilterBlogs(validBlogs);
+
+      // Process the blogs into our display format
       const processedBlogs = filteredAndSorted.map(processDevToBlogPost);
 
       setBlogs(processedBlogs);

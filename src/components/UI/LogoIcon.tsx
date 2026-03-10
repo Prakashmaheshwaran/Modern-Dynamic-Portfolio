@@ -1,22 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// React Icons imports
-import { 
-  SiDjango, 
-  SiFlask, 
-  SiReact, 
-  SiNodedotjs, 
-  SiExpress, 
-  SiMongodb, 
-  SiWordpress,
+import {
+  SiDjango,
+  SiFlask,
+  SiReact,
+  SiNodedotjs,
+  SiExpress,
+  SiMongodb,
   SiTensorflow,
   SiOpencv,
   SiAmazon,
   SiGooglecloud,
   SiOpenai,
   SiSelenium,
-  SiUipath,
   SiZapier,
   SiGit,
   SiGitlab,
@@ -28,6 +25,7 @@ import {
   SiBlender,
   SiPython,
   SiJavascript,
+  SiTypescript,
   SiCplusplus,
   SiPytorch,
   SiScikitlearn,
@@ -35,18 +33,40 @@ import {
   SiGraphql,
   SiPostgresql,
   SiRedis,
-  SiElasticsearch
+  SiElasticsearch,
+  SiNextdotjs,
+  SiAnthropic,
+  SiLangchain,
+  SiHuggingface,
+  SiStreamlit,
+  SiPandas,
+  SiNumpy,
+  SiJupyter,
+  SiMlflow,
+  SiTailwindcss,
+  SiVite,
+  SiPrisma,
+  SiGithubactions,
+  SiNginx,
+  SiJest,
+  SiCypress,
+  SiLinux,
+  SiVercel,
+  SiPostman,
+  SiSupabase,
+  SiApachekafka,
+  SiNotion
 } from 'react-icons/si';
 
-import { 
-  FaCode, 
-  FaBrain, 
-  FaChartLine, 
-  FaEye, 
-  FaRocket, 
-  FaProjectDiagram, 
-  FaDatabase, 
-  FaMemory, 
+import {
+  FaCode,
+  FaBrain,
+  FaChartLine,
+  FaEye,
+  FaRocket,
+  FaProjectDiagram,
+  FaDatabase,
+  FaMemory,
   FaSearch,
   FaDesktop,
   FaLaptop,
@@ -59,7 +79,6 @@ import {
   FaHorse
 } from 'react-icons/fa';
 
-// Logo mapping interface
 interface LogoIconProps {
   name: string;
   size?: number;
@@ -67,48 +86,82 @@ interface LogoIconProps {
   className?: string;
 }
 
-// Logo mapping object
 const logoMap: Record<string, any> = {
-  // Tech Tools
+  // Full Stack
   'django': SiDjango,
   'flask': SiFlask,
   'react': SiReact,
   'nodejs': SiNodedotjs,
   'express': SiExpress,
-  'mongodb': SiMongodb,
-  'wordpress': SiWordpress,
-  'tensorflow': SiTensorflow,
-  'opencv': SiOpencv,
-  'aws': SiAmazon,
-  'gcp': SiGooglecloud,
-  'openai': SiOpenai,
-  'selenium': SiSelenium,
-  'uipath': SiUipath,
-  'powerautomate': FaCog,
-  'zapier': SiZapier,
-  'git': SiGit,
-  'gitlab': SiGitlab,
-  'docker': SiDocker,
-  'kubernetes': SiKubernetes,
-  'terraform': SiHashicorp,
-  'aftereffects': SiAdobephotoshop,
-  'figma': SiFigma,
-  'blender': SiBlender,
-  'pegasus': FaHorse,
-  
-  // Skills
-  'python': SiPython,
-  'javascript': SiJavascript,
-  'java': SiJavascript,
-  'c++': SiCplusplus,
-  'pytorch': SiPytorch,
-  'scikit-learn': SiScikitlearn,
+  'nextjs': SiNextdotjs,
   'fastapi': SiFastapi,
   'graphql': SiGraphql,
+  'tailwindcss': SiTailwindcss,
+  'vite': SiVite,
+  'prisma': SiPrisma,
+
+  // AI / ML
+  'tensorflow': SiTensorflow,
+  'pytorch': SiPytorch,
+  'opencv': SiOpencv,
+  'openai': SiOpenai,
+  'anthropic': SiAnthropic,
+  'huggingface': SiHuggingface,
+  'langchain': SiLangchain,
+  'scikit-learn': SiScikitlearn,
+  'streamlit': SiStreamlit,
+  'pandas': SiPandas,
+  'numpy': SiNumpy,
+  'jupyter': SiJupyter,
+  'mlflow': SiMlflow,
+
+  // Cloud & Data
+  'aws': SiAmazon,
+  'gcp': SiGooglecloud,
+  'azure': FaServer,
+  'supabase': SiSupabase,
+  'pinecone': FaDatabase,
+  'mongodb': SiMongodb,
   'postgresql': SiPostgresql,
   'redis': SiRedis,
   'elasticsearch': SiElasticsearch,
-  
+  'kafka': SiApachekafka,
+
+  // Automation
+  'selenium': SiSelenium,
+  'playwright': FaGlobe,
+  'n8n': FaCog,
+  'zapier': SiZapier,
+  'powerautomate': FaCog,
+
+  // DevOps & Testing
+  'git': SiGit,
+  'gitlab': SiGitlab,
+  'githubactions': SiGithubactions,
+  'docker': SiDocker,
+  'kubernetes': SiKubernetes,
+  'terraform': SiHashicorp,
+  'nginx': SiNginx,
+  'jest': SiJest,
+  'cypress': SiCypress,
+  'linux': SiLinux,
+  'vercel': SiVercel,
+  'postman': SiPostman,
+
+  // Creative & Productivity
+  'aftereffects': SiAdobephotoshop,
+  'figma': SiFigma,
+  'blender': SiBlender,
+  'notion': SiNotion,
+  'pegasus': FaHorse,
+
+  // Programming Languages
+  'python': SiPython,
+  'javascript': SiJavascript,
+  'typescript': SiTypescript,
+  'java': SiJavascript,
+  'c++': SiCplusplus,
+
   // Generic icons
   'code': FaCode,
   'brain': FaBrain,
@@ -136,30 +189,29 @@ const StyledIcon = styled.div<{ color?: string; size?: number }>`
   color: ${props => props.color || 'inherit'};
   font-size: ${props => props.size || 24}px;
   transition: all 0.3s ease;
-  
+
   svg {
     width: 100%;
     height: 100%;
   }
 `;
 
-const LogoIcon: React.FC<LogoIconProps> = ({ 
-  name, 
-  size = 24, 
-  color, 
-  className 
+const LogoIcon: React.FC<LogoIconProps> = ({
+  name,
+  size = 24,
+  color,
+  className
 }) => {
   const IconComponent = logoMap[name.toLowerCase()];
-  
+
   if (!IconComponent) {
-    console.warn(`Logo icon not found for: ${name}`);
     return (
       <StyledIcon color={color} size={size} className={className}>
         {React.createElement(FaCode as any)}
       </StyledIcon>
     );
   }
-  
+
   return (
     <StyledIcon color={color} size={size} className={className}>
       {React.createElement(IconComponent as any)}

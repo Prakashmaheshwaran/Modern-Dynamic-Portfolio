@@ -1,42 +1,79 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
-  /* CSS Custom Properties (Variables) */
+  /* === CALL OF DUTY INSPIRED DESIGN SYSTEM === */
+
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&family=Teko:wght@300;400;500;600;700&display=swap');
+
   :root {
-    /* Color Palette - Sleek Black & White Theme */
-    --primary-bg: #000000;
-    --secondary-bg: #111111;
-    --accent-green: #FFFFFF;
-    --accent-pink: #CCCCCC;
-    --text-primary: #FFFFFF;
-    --text-secondary: #CCCCCC;
-    --text-muted: #999999;
-    --border-color: #333333;
-    --card-bg: #1a1a1a;
-    --overlay-bg: rgba(0, 0, 0, 0.95);
-    
-    /* Typography */
-    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-secondary: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-    
+    /* CoD Color Palette - Military Dark Theme */
+    --primary-bg: #0a0b0d;
+    --secondary-bg: #0f1114;
+    --tertiary-bg: #141619;
+    --card-bg: rgba(16, 18, 22, 0.95);
+
+    /* Accent Colors - Tactical */
+    --cod-orange: #ff8c00;
+    --cod-orange-dim: rgba(255, 140, 0, 0.15);
+    --cod-green: #4ade80;
+    --cod-green-dim: rgba(74, 222, 128, 0.12);
+    --cod-red: #ef4444;
+    --cod-red-dim: rgba(239, 68, 68, 0.12);
+    --cod-blue: #38bdf8;
+    --cod-blue-dim: rgba(56, 189, 248, 0.12);
+    --cod-gold: #fbbf24;
+    --cod-gold-dim: rgba(251, 191, 36, 0.12);
+
+    /* Legacy vars (mapped for compat) */
+    --accent-green: var(--cod-orange);
+    --accent-pink: var(--cod-gold);
+
+    /* Text */
+    --text-primary: #e8e8e8;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --text-bright: #ffffff;
+
+    /* Borders */
+    --border-color: rgba(255, 140, 0, 0.12);
+    --border-bright: rgba(255, 140, 0, 0.35);
+
+    /* Overlay */
+    --overlay-bg: rgba(10, 11, 13, 0.97);
+
+    /* Typography - Military Stack */
+    --font-primary: 'Rajdhani', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-secondary: 'Teko', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'Share Tech Mono', 'Courier New', monospace;
+
     /* Spacing */
-    --section-padding: 100px 0;
+    --section-padding: 80px 0;
     --container-padding: 0 20px;
-    --border-radius: 12px;
-    --border-radius-lg: 20px;
-    
+    --border-radius: 2px;
+    --border-radius-lg: 4px;
+
     /* Transitions */
-    --transition-fast: 0.2s ease;
+    --transition-fast: 0.15s ease;
     --transition-medium: 0.3s ease;
     --transition-slow: 0.5s ease;
     --transition-bounce: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    
-    /* Shadows */
-    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.5);
-    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.7);
-    --shadow-glow: 0 0 30px rgba(255, 255, 255, 0.1);
-    --shadow-glow-pink: 0 0 30px rgba(204, 204, 204, 0.1);
+
+    /* Shadows - Tactical Glow */
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.8);
+    --shadow-glow: 0 0 20px rgba(255, 140, 0, 0.15);
+    --shadow-glow-orange: 0 0 30px rgba(255, 140, 0, 0.2);
+    --shadow-glow-green: 0 0 20px rgba(74, 222, 128, 0.15);
+
+    /* Character Select Accent Colors */
+    --cs-techie: #4ade80;
+    --cs-influencer: #f472b6;
+    --cs-branding: #fbbf24;
+    --cs-fitness: #ef4444;
+    --cs-bg: #0a0a0a;
+    --cs-card-bg: rgba(15, 15, 15, 0.9);
+    --cs-border: rgba(255, 140, 0, 0.08);
   }
 
   * {
@@ -55,36 +92,36 @@ const GlobalStyles = createGlobalStyle`
     background-color: var(--primary-bg);
     color: var(--text-primary);
     line-height: 1.6;
-    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    
-    /* Mobile optimizations */
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
+    font-weight: 500;
+    letter-spacing: 0.02em;
   }
 
   ::selection {
-    background-color: var(--accent-green);
+    background-color: var(--cod-orange);
     color: var(--primary-bg);
   }
 
-  /* Scrollbar Styling */
+  /* Scrollbar - Military Style */
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   ::-webkit-scrollbar-track {
     background: var(--primary-bg);
+    border-left: 1px solid rgba(255, 140, 0, 0.1);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--accent-green);
-    border-radius: 4px;
+    background: rgba(255, 140, 0, 0.4);
+    border-radius: 0;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-pink);
+    background: rgba(255, 140, 0, 0.6);
   }
 
   /* Accessibility */
@@ -100,22 +137,19 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .focus-visible:focus {
-    outline: 2px solid var(--accent-green);
+    outline: 2px solid var(--cod-orange);
     outline-offset: 2px;
   }
 
-  /* High contrast mode support */
   @media (prefers-contrast: high) {
     :root {
       --text-primary: #FFFFFF;
       --text-secondary: #CCCCCC;
-      --accent-green: #00FF00;
-      --accent-pink: #FF00FF;
+      --cod-orange: #FF9500;
       --border-color: #666666;
     }
   }
 
-  /* Print styles */
   @media print {
     * {
       background: white !important;
@@ -124,7 +158,6 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 
-  /* Utility classes */
   .sr-only {
     position: absolute;
     width: 1px;
@@ -141,17 +174,16 @@ const GlobalStyles = createGlobalStyle`
     max-width: 70%;
     margin: 0 auto;
     padding: var(--container-padding);
-    
-    /* Mobile responsive container */
+
     @media (max-width: 1024px) {
       max-width: 85%;
     }
-    
+
     @media (max-width: 768px) {
       max-width: 95%;
       padding: 0 1rem;
     }
-    
+
     @media (max-width: 480px) {
       max-width: 100%;
       padding: 0 10% 0 0;
@@ -159,7 +191,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   .text-gradient {
-    background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
+    background: linear-gradient(135deg, var(--cod-orange), var(--cod-gold));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -173,46 +205,50 @@ const GlobalStyles = createGlobalStyle`
     display: none !important;
   }
 
-  /* Mobile-specific improvements */
+  /* Military corner clip for cards */
+  .clip-corners {
+    clip-path: polygon(
+      0 8px, 8px 0,
+      calc(100% - 8px) 0, 100% 8px,
+      100% calc(100% - 8px), calc(100% - 8px) 100%,
+      8px 100%, 0 calc(100% - 8px)
+    );
+  }
+
+  /* Mobile improvements */
   @media (max-width: 768px) {
-    /* Improve touch targets */
     button, a, input, select, textarea {
       min-height: 44px;
       min-width: 44px;
     }
-    
-    /* Better spacing for mobile */
+
     h1, h2, h3, h4, h5, h6 {
       margin-bottom: 0.75rem;
     }
-    
+
     p {
       margin-bottom: 1rem;
     }
   }
-  
+
   @media (max-width: 480px) {
-    /* Even better touch targets for small screens */
     button, a, input, select, textarea {
       min-height: 48px;
       min-width: 48px;
     }
-    
-    /* Tighter spacing for small screens */
+
     h1, h2, h3, h4, h5, h6 {
       margin-bottom: 0.5rem;
     }
-    
+
     p {
       margin-bottom: 0.75rem;
     }
-    
-    /* Add right padding to all sections for navigation clearance */
+
     section {
       padding-right: 10% !important;
     }
-    
-    /* Ensure all content containers have right padding */
+
     .container, [class*="Container"], [class*="Section"] {
       padding-right: 10% !important;
     }

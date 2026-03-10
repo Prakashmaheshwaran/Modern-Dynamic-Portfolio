@@ -85,8 +85,8 @@ export const processDevToBlogPost = (post: DevToBlogPost): BlogPost => {
 export const sortAndFilterBlogs = (blogs: DevToBlogPost[]): DevToBlogPost[] => {
   return blogs
     .filter(blog => {
-      // Only articles (Dev.to public API only returns published articles)
-      if (blog.type_of !== 'article') return false;
+      // Only articles (all returned from public API are published)
+      if (blog.type_of && blog.type_of !== 'article') return false;
 
       // Filter out very short posts
       if (blog.reading_time_minutes < BLOG_CONFIG.MIN_READING_TIME) return false;

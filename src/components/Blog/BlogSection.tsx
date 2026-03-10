@@ -4,145 +4,90 @@ import { motion } from 'framer-motion';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 import { useBlogData } from '../../hooks/useBlogData';
 import { BlogPost } from '../../config/blogConfig';
+import soundManager from '../../utils/soundManager';
 
 const BlogContainer = styled.section`
-  padding: 40px 0;
+  padding: 4rem 0;
   background: var(--secondary-bg);
+
+  @media (max-width: 768px) { padding: 2.5rem 0; }
 `;
 
 const BlogContent = styled(motion.div)`
   text-align: center;
 `;
 
+const SectionLabel = styled(motion.div)`
+  font-family: var(--font-mono, 'Share Tech Mono', monospace);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  color: var(--cod-orange, #ff8c00);
+  margin-bottom: 0.5rem;
+  opacity: 0.6;
+`;
+
 const BlogTitle = styled(motion.h2)`
-  font-family: var(--font-secondary);
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-family: var(--font-secondary, 'Teko', sans-serif);
+  font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   text-align: center;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-green) 50%, var(--accent-pink) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  position: relative;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -20px;
-    right: -20px;
-    bottom: -10px;
-    background: linear-gradient(135deg, rgba(120, 119, 198, 0.1), rgba(255, 119, 198, 0.1));
-    border-radius: 20px;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  &:hover::before {
-    opacity: 1;
-  }
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-bright, #ffffff);
 `;
 
 const BlogGrid = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 3rem;
+  gap: 1rem;
+  margin-top: 2rem;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
 
-  @media (max-width: 768px) {
-    gap: 1rem;
-    max-width: 100%;
-    padding: 0 1rem;
-  }
-`;
-
-const BlogCardWrapper = styled.div`
-  @media (max-width: 768px) {
-    /* No special styling needed - cards handle their own appearance */
-  }
+  @media (max-width: 768px) { gap: 0.8rem; padding: 0 1rem; }
 `;
 
 const BlogCard = styled(motion.article)`
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 0;
+  background: rgba(16, 18, 22, 0.9);
+  border: 1px solid rgba(255, 140, 0, 0.06);
   overflow: hidden;
-  transition: all var(--transition-medium);
+  transition: all 0.3s ease;
   cursor: pointer;
   display: flex;
   align-items: center;
-  padding: 0.85rem;
-  gap: 1.3rem;
+  padding: 0.8rem;
+  gap: 1rem;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
 
   &:hover {
-    transform: translateY(-4px);
-    border-color: var(--accent-green);
-    box-shadow: var(--shadow-glow);
+    border-color: rgba(255, 140, 0, 0.2);
+    box-shadow: 0 4px 25px rgba(255, 140, 0, 0.05);
   }
 
-  @media (max-width: 768px) {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 0;
-    flex-direction: row;
-    text-align: left;
-    gap: 1rem;
-    padding: 1rem;
-    align-items: center;
-    min-height: auto;
-    box-shadow: none;
-    
-    &:hover {
-      transform: translateY(-2px);
-      border-color: var(--accent-green);
-      box-shadow: var(--shadow-glow);
-    }
-  }
+  @media (max-width: 768px) { gap: 0.8rem; padding: 0.7rem; }
 `;
 
 const BlogImage = styled.div<{ $imageUrl: string }>`
-  width: 102px;
-  height: 102px;
-  min-width: 102px;
+  width: 90px;
+  height: 90px;
+  min-width: 90px;
   background-image: url(${props => props.$imageUrl});
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 0;
-  position: relative;
-  overflow: hidden;
   flex-shrink: 0;
+  position: relative;
 
   &::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(0, 0, 0, 0.1) 0%,
-      rgba(0, 0, 0, 0.3) 100%
-    );
-    transition: opacity var(--transition-medium);
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(0, 0, 0, 0.3));
   }
 
-  ${BlogCard}:hover &::before {
-    opacity: 0.7;
-  }
-
-  @media (max-width: 768px) {
-    width: 60px;
-    height: 60px;
-    min-width: 60px;
-    border-radius: 0;
-  }
+  @media (max-width: 768px) { width: 55px; height: 55px; min-width: 55px; }
 `;
 
 const BlogCardContent = styled.div`
@@ -150,452 +95,216 @@ const BlogCardContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0;
-
-  @media (max-width: 768px) {
-    padding: 0;
-    text-align: left;
-  }
+  text-align: left;
 `;
 
 const BlogCardTitle = styled.h3`
-  font-size: 1.1rem;
+  font-family: var(--font-primary, 'Rajdhani', sans-serif);
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.3rem;
   line-height: 1.3;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 
-  @media (max-width: 768px) {
-    font-size: 1rem;
-    margin-bottom: 0.4rem;
-    font-weight: 500;
-    text-align: left;
-  }
+  @media (max-width: 768px) { font-size: 0.9rem; }
 `;
 
 const BlogDescription = styled.p`
-  color: var(--text-secondary);
-  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
   line-height: 1.4;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.4rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 
-  @media (max-width: 768px) {
-    display: none;
-  }
+  @media (max-width: 768px) { display: none; }
 `;
 
 const BlogMetadata = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.6rem;
-  font-size: 0.75rem;
+  gap: 0.8rem;
+  font-family: var(--font-mono, 'Share Tech Mono', monospace);
+  font-size: 0.6rem;
   color: var(--text-muted);
-  
-  @media (max-width: 768px) {
-    gap: 0.75rem;
-    margin-bottom: 0.4rem;
-  }
-`;
-
-const MetadataItem = styled.span`
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  
-  i {
-    color: var(--accent-green);
-    font-size: 0.7rem;
-  }
-  
-  @media (max-width: 768px) {
-    font-size: 0.7rem;
-    
-    i {
-      font-size: 0.65rem;
-    }
-  }
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
 `;
 
 const BlogTags = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.3rem;
-  margin-bottom: 0.6rem;
-  
-  @media (max-width: 768px) {
-    display: none;
-  }
+  gap: 0.25rem;
+  margin-bottom: 0.4rem;
+
+  @media (max-width: 768px) { display: none; }
 `;
 
 const TagItem = styled.span`
-  background: var(--primary-bg);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  padding: 0.2rem 0.5rem;
-  font-size: 0.65rem;
-  font-weight: 500;
-  border-radius: 2px;
-  transition: all var(--transition-fast);
-  
-  &:hover {
-    border-color: var(--accent-green);
-    color: var(--accent-green);
-  }
+  background: rgba(255, 140, 0, 0.06);
+  border: 1px solid rgba(255, 140, 0, 0.08);
+  color: var(--text-secondary);
+  padding: 0.15rem 0.4rem;
+  font-family: var(--font-mono, 'Share Tech Mono', monospace);
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 `;
 
 const ReadMoreButton = styled(motion.button)`
+  font-family: var(--font-mono, 'Share Tech Mono', monospace);
   background: transparent;
-  border: 1px solid var(--accent-green);
-  color: var(--accent-green);
-  padding: 0.4rem 0.8rem;
-  border-radius: 0;
-  font-size: 0.85rem;
-  font-weight: 500;
+  border: 1px solid rgba(255, 140, 0, 0.2);
+  color: var(--cod-orange, #ff8c00);
+  padding: 0.3rem 0.6rem;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   cursor: pointer;
-  transition: all var(--transition-medium);
-  align-self: center;
+  transition: all 0.2s ease;
+  align-self: flex-start;
 
-  &:hover {
-    background: var(--accent-green);
-    color: var(--primary-bg);
-  }
+  &:hover { background: rgba(255, 140, 0, 0.1); }
 
-  @media (max-width: 768px) {
-    padding: 0.3rem 0.6rem;
-    font-size: 0.75rem;
-    margin-top: 0;
-    align-self: flex-start;
-  }
+  @media (max-width: 768px) { font-size: 0.55rem; padding: 0.25rem 0.5rem; }
 `;
 
 const LoadingContainer = styled(motion.div)`
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 4rem 2rem;
-  text-align: center;
+  padding: 3rem 2rem;
 `;
 
 const LoadingSpinner = styled(motion.div)`
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--border-color);
-  border-top: 3px solid var(--accent-green);
+  width: 30px;
+  height: 30px;
+  border: 2px solid rgba(255, 140, 0, 0.1);
+  border-top: 2px solid var(--cod-orange, #ff8c00);
   border-radius: 50%;
   margin: 0 auto 1rem;
 `;
 
 const ErrorContainer = styled(motion.div)`
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius-lg);
-  padding: 3rem 2rem;
+  background: rgba(16, 18, 22, 0.9);
+  border: 1px solid rgba(255, 140, 0, 0.1);
+  padding: 2.5rem;
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 `;
 
 const RetryButton = styled(motion.button)`
-  padding: 12px 24px;
-  background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
-  border: none;
-  border-radius: var(--border-radius);
-  color: var(--primary-bg);
-  font-weight: 600;
-  font-size: 1rem;
+  font-family: var(--font-secondary, 'Teko', sans-serif);
+  padding: 10px 24px;
+  background: rgba(255, 140, 0, 0.12);
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  color: var(--cod-orange, #ff8c00);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   cursor: pointer;
-  transition: all var(--transition-medium);
   margin-top: 1rem;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-glow);
-  }
 `;
 
 const EmptyState = styled(motion.div)`
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius-lg);
-  padding: 4rem 2rem;
+  background: rgba(16, 18, 22, 0.9);
+  border: 1px solid rgba(255, 140, 0, 0.08);
+  padding: 3rem 2rem;
   text-align: center;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 
-  h3 {
-    font-size: 1.5rem;
-    color: var(--accent-green);
-    margin-bottom: 1rem;
-  }
-
-  p {
-    color: var(--text-muted);
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-  }
+  h3 { font-family: var(--font-secondary, 'Teko', sans-serif); font-size: 1.4rem; color: var(--cod-orange, #ff8c00); margin-bottom: 0.5rem; text-transform: uppercase; }
+  p { color: var(--text-muted); font-size: 0.9rem; }
 `;
 
 const ViewMoreContainer = styled(motion.div)`
   display: flex;
   justify-content: center;
-  margin-top: 3rem;
-  
-  @media (max-width: 768px) {
-    margin-top: 2rem;
-  }
+  margin-top: 2rem;
 `;
 
 const ViewMoreButton = styled(motion.a)`
+  font-family: var(--font-secondary, 'Teko', sans-serif);
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 14px 28px;
-  background: linear-gradient(135deg, var(--accent-green), var(--accent-pink));
-  border: none;
-  border-radius: var(--border-radius);
-  color: var(--primary-bg);
-  font-weight: 600;
+  padding: 12px 28px;
+  background: rgba(255, 140, 0, 0.1);
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  color: var(--cod-orange, #ff8c00);
   font-size: 1rem;
   text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   cursor: pointer;
-  transition: all var(--transition-medium);
-  position: relative;
-  overflow: hidden;
+  transition: all 0.2s ease;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(120, 119, 198, 0.3);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  i {
-    font-size: 1.1rem;
-    transition: transform var(--transition-medium);
-  }
-
-  &:hover i {
-    transform: translateX(2px);
-  }
-
-  @media (max-width: 768px) {
-    padding: 12px 24px;
-    font-size: 0.9rem;
-    
-    i {
-      font-size: 1rem;
-    }
-  }
+  &:hover { background: rgba(255, 140, 0, 0.2); box-shadow: 0 0 25px rgba(255, 140, 0, 0.1); }
 `;
 
 const BlogSection: React.FC = () => {
-  const { ref: sectionRef, isIntersecting } = useIntersectionObserver({
-    threshold: 0.2,
-    triggerOnce: true
-  });
-
+  const { ref: sectionRef, isIntersecting } = useIntersectionObserver({ threshold: 0.2, triggerOnce: true });
   const { blogs, loading, error, refetch } = useBlogData();
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.1
-      }
-    }
-  };
+  const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.1 } } };
+  const itemVariants = { hidden: { opacity: 0, y: 25 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } } };
+  const cardVariants = { hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } } };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: 'easeOut'
-      }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: 'easeOut'
-      }
-    }
-  };
-
-  const handleBlogClick = (url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short',
-      day: 'numeric'
-    });
-  };
+  const handleBlogClick = (url: string) => { soundManager.playUIClick(); window.open(url, '_blank', 'noopener,noreferrer'); };
+  const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
   const renderBlogCard = (blog: BlogPost, index: number) => (
-    <BlogCardWrapper key={`${blog.id || blog.title}-${index}`}>
-      <BlogCard
-        variants={cardVariants}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={() => handleBlogClick(blog.url)}
-      >
-        <BlogImage $imageUrl={blog.cover_image} />
-        <BlogCardContent>
-          <BlogCardTitle>{blog.title}</BlogCardTitle>
-          <BlogDescription>{blog.description}</BlogDescription>
-          
-          {/* Show metadata for Dev.to posts */}
-          {blog.published_at && (
-            <BlogMetadata>
-              <MetadataItem>
-                <i className="fas fa-clock" />
-                {blog.reading_time_minutes || 1} min read
-              </MetadataItem>
-              <MetadataItem>
-                <i className="fas fa-heart" />
-                {blog.public_reactions_count || 0}
-              </MetadataItem>
-              <MetadataItem>
-                <i className="fas fa-calendar" />
-                {formatDate(blog.published_at)}
-              </MetadataItem>
-              {blog.comments_count > 0 && (
-                <MetadataItem>
-                  <i className="fas fa-comment" />
-                  {blog.comments_count}
-                </MetadataItem>
-              )}
-            </BlogMetadata>
-          )}
-          
-          {/* Show tags for Dev.to posts */}
-          {blog.tag_list && blog.tag_list.length > 0 && (
-            <BlogTags>
-              {blog.tag_list.slice(0, 3).map(tag => (
-                <TagItem key={tag}>#{tag}</TagItem>
-              ))}
-            </BlogTags>
-          )}
-          
-          <ReadMoreButton
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Read More
-          </ReadMoreButton>
-        </BlogCardContent>
-      </BlogCard>
-    </BlogCardWrapper>
+    <BlogCard key={`${blog.id || blog.title}-${index}`} variants={cardVariants} whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }} onClick={() => handleBlogClick(blog.url)}>
+      <BlogImage $imageUrl={blog.cover_image} />
+      <BlogCardContent>
+        <BlogCardTitle>{blog.title}</BlogCardTitle>
+        <BlogDescription>{blog.description}</BlogDescription>
+        {blog.published_at && (
+          <BlogMetadata>
+            <span>{blog.reading_time_minutes || 1} min</span>
+            <span>{blog.public_reactions_count || 0} reactions</span>
+            <span>{formatDate(blog.published_at)}</span>
+            {blog.comments_count > 0 && <span>{blog.comments_count} comments</span>}
+          </BlogMetadata>
+        )}
+        {blog.tag_list && blog.tag_list.length > 0 && (
+          <BlogTags>{blog.tag_list.slice(0, 3).map(tag => <TagItem key={tag}>#{tag}</TagItem>)}</BlogTags>
+        )}
+        <ReadMoreButton whileHover={{ scale: 1.05 }}>[ Read More ]</ReadMoreButton>
+      </BlogCardContent>
+    </BlogCard>
   );
-
-  const renderContent = () => {
-    if (loading) {
-      return (
-        <LoadingContainer variants={itemVariants}>
-          <div>
-            <LoadingSpinner
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            />
-            <p>Loading latest blog posts...</p>
-          </div>
-        </LoadingContainer>
-      );
-    }
-
-    if (error) {
-      return (
-        <ErrorContainer variants={itemVariants}>
-          <h3>Unable to Load Blog Posts</h3>
-          <p>{error}</p>
-          <RetryButton
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={refetch}
-          >
-            Try Again
-          </RetryButton>
-        </ErrorContainer>
-      );
-    }
-
-    if (blogs.length === 0) {
-      return (
-        <EmptyState variants={itemVariants}>
-          <h3>No Blog Posts Available</h3>
-          <p>
-            I'm working on creating valuable content about automation research, 
-            machine learning techniques, and software development best practices. 
-            Stay tuned for technical insights and project deep-dives.
-          </p>
-        </EmptyState>
-      );
-    }
-
-    return (
-      <>
-        <BlogGrid
-          variants={containerVariants}
-          initial="hidden"
-          animate={isIntersecting ? "visible" : "hidden"}
-        >
-          {blogs.map((blog, index) => renderBlogCard(blog, index))}
-        </BlogGrid>
-        
-        <ViewMoreContainer
-          initial={{ opacity: 0, y: 20 }}
-          animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-        >
-          <ViewMoreButton
-            href="https://dev.to/prakash_maheshwaran"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            View More Articles
-            <i className="fas fa-external-link-alt" />
-          </ViewMoreButton>
-        </ViewMoreContainer>
-      </>
-    );
-  };
 
   return (
     <BlogContainer ref={sectionRef} id="blog">
       <div className="container">
-        <BlogContent
-          variants={containerVariants}
-          initial="hidden"
-          animate={isIntersecting ? "visible" : "hidden"}
-        >
-          <BlogTitle variants={itemVariants}>
-            Thoughts & Insights
-          </BlogTitle>
-          
-          {renderContent()}
+        <BlogContent variants={containerVariants} initial="hidden" animate={isIntersecting ? "visible" : "hidden"}>
+          <SectionLabel variants={itemVariants}>// Blog</SectionLabel>
+          <BlogTitle variants={itemVariants}>Blog Posts</BlogTitle>
+
+          {loading ? (
+            <LoadingContainer variants={itemVariants}><div><LoadingSpinner animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} /><p>Loading posts...</p></div></LoadingContainer>
+          ) : error ? (
+            <ErrorContainer variants={itemVariants}><h3>Connection Error</h3><p>{error}</p><RetryButton onClick={refetch}>Retry</RetryButton></ErrorContainer>
+          ) : blogs.length === 0 ? (
+            <EmptyState variants={itemVariants}><h3>No Posts Yet</h3><p>Working on new articles about AI, automation, and development. Stay tuned.</p></EmptyState>
+          ) : (
+            <>
+              <BlogGrid variants={containerVariants} initial="hidden" animate={isIntersecting ? "visible" : "hidden"}>
+                {blogs.map((blog, index) => renderBlogCard(blog, index))}
+              </BlogGrid>
+              <ViewMoreContainer initial={{ opacity: 0 }} animate={isIntersecting ? { opacity: 1 } : { opacity: 0 }} transition={{ duration: 0.6, delay: 0.8 }}>
+                <ViewMoreButton href="https://dev.to/prakash_maheshwaran" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05 }}>View All Posts</ViewMoreButton>
+              </ViewMoreContainer>
+            </>
+          )}
         </BlogContent>
       </div>
     </BlogContainer>
