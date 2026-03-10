@@ -1,7 +1,7 @@
 // Blog configuration
 export const BLOG_CONFIG = {
-  // Hardcoded Dev.to API URL - unauthenticated (generous limits)
-  WEBHOOK_URL: 'https://dev.to/api/articles?username=prakash_maheshwaran',
+  // Dev.to public API - unauthenticated (generous rate limits)
+  API_URL: 'https://dev.to/api/articles?username=prakash_maheshwaran&per_page=30',
 
   // Maximum number of blogs to display
   MAX_BLOGS: 9,
@@ -85,7 +85,7 @@ export const processDevToBlogPost = (post: DevToBlogPost): BlogPost => {
 export const sortAndFilterBlogs = (blogs: DevToBlogPost[]): DevToBlogPost[] => {
   return blogs
     .filter(blog => {
-      // Only articles
+      // Only articles (Dev.to public API only returns published articles)
       if (blog.type_of !== 'article') return false;
 
       // Filter out very short posts

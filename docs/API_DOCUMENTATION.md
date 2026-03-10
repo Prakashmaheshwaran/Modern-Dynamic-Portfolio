@@ -1,19 +1,18 @@
 # API Documentation
 
-This document outlines the expected data structures for the webhook integrations used in the portfolio.
+This document outlines the data structures for the external API integrations used in the portfolio.
 
-## Blog Webhook API
+## Blog Posts API (Dev.to)
 
-### Endpoint Configuration
-```env
-REACT_APP_BLOG_WEBHOOK_URL=https://your-webhook-url.com/api/blogs
+### Endpoint
+
+Hardcoded in `src/config/blogConfig.ts`:
+```
+https://dev.to/api/articles?username=prakash_maheshwaran&per_page=30
 ```
 
-### Supported Response Formats
+### Response Format: Direct Array
 
-The application supports multiple response formats to ensure compatibility with various APIs:
-
-#### Format 1: Direct Array (Dev.to API compatible)
 ```json
 [
   {
@@ -50,24 +49,7 @@ The application supports multiple response formats to ensure compatibility with 
 ]
 ```
 
-#### Format 2: Wrapped in Object
-```json
-{
-  "data": [...], // Array of blog posts
-  // OR
-  "blogs": [...], // Array of blog posts
-  // OR
-  "posts": [...], // Array of blog posts
-  // OR
-  "articles": [...], // Array of blog posts
-  // OR
-  "items": [...] // Array of blog posts
-}
-```
-
 ### Required Fields
-
-The following fields are **required** for each blog post:
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -90,16 +72,17 @@ The following fields are **required** for each blog post:
 | `page_views_count` | number | Number of page views |
 | `tag_list` | string[] | Array of tags |
 
-## Projects Webhook API
+## Projects API (GitHub)
 
-### Endpoint Configuration
-```env
-REACT_APP_PROJECT_WEBHOOK_URL=https://api.github.com/users/yourusername/repos
+### Endpoint
+
+Hardcoded in `src/config/projectsConfig.ts`:
+```
+https://api.github.com/users/Prakashmaheshwaran/repos?per_page=100&sort=updated
 ```
 
-### Supported Response Formats
+### Response Format: Direct Array
 
-#### Format 1: Direct Array (GitHub API compatible)
 ```json
 [
   {
@@ -124,26 +107,14 @@ REACT_APP_PROJECT_WEBHOOK_URL=https://api.github.com/users/yourusername/repos
 ]
 ```
 
-#### Format 2: Wrapped in Object
-```json
-{
-  "data": [...], // Array of projects
-  // OR
-  "projects": [...], // Array of projects
-  // OR
-  "repositories": [...], // Array of projects
-  // OR
-  "repos": [...] // Array of projects
-}
-```
-
 ### Required Fields
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `id` | number | Unique identifier |
 | `name` | string | Repository name |
-| `description` | string\|null | Project description |
+| `full_name` | string | Full repository name (user/repo) |
+| `description` | string\|null | Project description (min 10 chars) |
 | `html_url` | string | GitHub repository URL |
 | `language` | string\|null | Primary programming language |
 | `updated_at` | string | Last update date (ISO format) |
@@ -179,57 +150,29 @@ REACT_APP_PROJECT_WEBHOOK_URL=https://api.github.com/users/yourusername/repos
 
 ## Error Handling
 
-### Common Error Responses
-```json
-{
-  "error": "Invalid API key",
-  "message": "The provided API key is invalid or expired"
-}
-```
-
 ### Timeout Settings
 - Blog API: 15 seconds
 - Projects API: 15 seconds
 
 ### Fallback Behavior
-If webhooks fail or return invalid data, the application will:
-1. Display static data from local files
+If API calls fail or return invalid data, the application will:
+1. Display static data from local files (projects only)
 2. Show appropriate error messages
-3. Log detailed error information to console
+3. Log error information to console
 4. Provide retry functionality
 
-## Testing Your Webhook
-
-You can test your webhook by:
-
-1. **Direct API Testing**: Use tools like Postman or curl
-2. **Browser Console**: Check the console logs for detailed response information
-3. **Network Tab**: Monitor network requests in DevTools
-
-### Sample Test Commands
+## Testing the APIs
 
 ```bash
 # Test Blog API
-curl -H "Content-Type: application/json" "YOUR_BLOG_WEBHOOK_URL"
+curl "https://dev.to/api/articles?username=prakash_maheshwaran&per_page=30"
 
-# Test Projects API  
-curl -H "Content-Type: application/json" "YOUR_PROJECTS_WEBHOOK_URL"
+# Test Projects API
+curl "https://api.github.com/users/Prakashmaheshwaran/repos?per_page=100&sort=updated"
 ```
 
-## Integration Examples
+## Customization
 
-### Dev.to Integration
-```env
-REACT_APP_BLOG_WEBHOOK_URL=https://dev.to/api/articles?username=yourusername&per_page=20
-```
-
-### GitHub Integration
-```env
-REACT_APP_PROJECT_WEBHOOK_URL=https://api.github.com/users/yourusername/repos?sort=updated&per_page=20
-```
-
-### Custom N8N Webhook
-```env
-REACT_APP_BLOG_WEBHOOK_URL=https://n8n.yourserver.com/webhook/blog-posts
-REACT_APP_PROJECT_WEBHOOK_URL=https://n8n.yourserver.com/webhook/github-projects
-```
+To use different API endpoints, edit the config files directly:
+- Blog: `src/config/blogConfig.ts` — `BLOG_CONFIG.API_URL`
+- Projects: `src/config/projectsConfig.ts` — `PROJECTS_CONFIG.API_URL`

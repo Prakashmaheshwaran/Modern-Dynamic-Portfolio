@@ -24,12 +24,10 @@ export const useBlogData = (): UseBlogDataReturn => {
       setLoading(true);
       setError(null);
 
-      // Webhook URL is hardcoded - no env check needed
-
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), BLOG_CONFIG.TIMEOUT);
 
-      const response = await fetch(BLOG_CONFIG.WEBHOOK_URL, {
+      const response = await fetch(BLOG_CONFIG.API_URL, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -45,47 +43,15 @@ export const useBlogData = (): UseBlogDataReturn => {
 
       const rawData = await response.json();
 
-      // Debug: Log the received data structure
-      console.log('Received webhook data:', rawData);
-      console.log('Data type:', typeof rawData);
-      console.log('Is array:', Array.isArray(rawData));
-
-      // Handle different webhook response formats
-      let dataArray: DevToBlogPost[] = [];
-
-      if (Array.isArray(rawData)) {
-        // Direct array response (expected for Dev.to API)
-        dataArray = rawData;
-      } else if (rawData && typeof rawData === 'object') {
-        // Check for common webhook response patterns
-        if (rawData.data && Array.isArray(rawData.data)) {
-          // Response wrapped in { data: [...] }
-          dataArray = rawData.data;
-        } else if (rawData.blogs && Array.isArray(rawData.blogs)) {
-          // Response wrapped in { blogs: [...] }
-          dataArray = rawData.blogs;
-        } else if (rawData.posts && Array.isArray(rawData.posts)) {
-          // Response wrapped in { posts: [...] }
-          dataArray = rawData.posts;
-        } else if (rawData.articles && Array.isArray(rawData.articles)) {
-          // Response wrapped in { articles: [...] }
-          dataArray = rawData.articles;
-        } else if (rawData.items && Array.isArray(rawData.items)) {
-          // Response wrapped in { items: [...] }
-          dataArray = rawData.items;
-        } else {
-          // Single blog object - wrap it in an array
-          dataArray = [rawData];
-        }
-      } else {
-        console.error('Unexpected data format:', rawData);
-        throw new Error('Invalid data format: expected an object or array');
+      // Dev.to API returns a direct JSON array
+      if (!Array.isArray(rawData)) {
+        console.error('Unexpected data format from Dev.to API:', typeof rawData);
+        throw new Error('Invalid data format: expected an array from Dev.to API');
       }
 
-      console.log('Extracted data array:', dataArray);
-
       // Validate that we have Dev.to blog structure
-      const validBlogs = dataArray.filter((blog: any) => {
+      // Note: Dev.to public API only returns published articles, so 'published' field is absent
+      const validBlogs = rawData.filter((blog: any) => {
         const isValid = blog &&
           typeof blog.id === 'number' &&
           typeof blog.title === 'string' &&
@@ -100,15 +66,8 @@ export const useBlogData = (): UseBlogDataReturn => {
         return isValid;
       }) as DevToBlogPost[];
 
-      console.log('Valid Dev.to blogs found:', validBlogs.length);
-
-      // Sort and filter the blogs to get the top 9
       const filteredAndSorted = sortAndFilterBlogs(validBlogs);
-      console.log('Filtered and sorted blogs:', filteredAndSorted.length);
-
-      // Process the blogs into our display format
       const processedBlogs = filteredAndSorted.map(processDevToBlogPost);
-      console.log('Processed blogs:', processedBlogs);
 
       setBlogs(processedBlogs);
     } catch (err) {

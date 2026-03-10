@@ -61,34 +61,18 @@ npm run build
 
 ## ⚙️ Configuration
 
-### Environment Variables
+### API Endpoints
 
-| Variable | Required | Description | Example |
-|----------|----------|-------------|---------|
-| `REACT_APP_BLOG_WEBHOOK_URL` | No | Blog posts API endpoint | `https://dev.to/api/articles?username=yourusername` |
-| `REACT_APP_PROJECT_WEBHOOK_URL` | No | GitHub projects API endpoint | `https://api.github.com/users/yourusername/repos` |
+API URLs are hardcoded in the config files (no environment variables needed):
 
-**📝 See `env.sample` for complete configuration options**
+| Config File | API | URL |
+|-------------|-----|-----|
+| `src/config/blogConfig.ts` | Dev.to | `https://dev.to/api/articles?username=prakash_maheshwaran&per_page=30` |
+| `src/config/projectsConfig.ts` | GitHub | `https://api.github.com/users/Prakashmaheshwaran/repos?per_page=100&sort=updated` |
 
-### API Integration
+To customize for your own use, edit the `API_URL` field in each config file.
 
-#### Blog Posts (Dev.to Compatible)
-```bash
-# Dev.to API (recommended)
-REACT_APP_BLOG_WEBHOOK_URL=https://dev.to/api/articles?username=yourusername&per_page=20
-
-# Custom webhook
-REACT_APP_BLOG_WEBHOOK_URL=https://your-webhook.com/api/blogs
-```
-
-#### GitHub Projects
-```bash
-# GitHub API (recommended)
-REACT_APP_PROJECT_WEBHOOK_URL=https://api.github.com/users/yourusername/repos?sort=updated
-
-# Custom webhook
-REACT_APP_PROJECT_WEBHOOK_URL=https://your-webhook.com/api/projects
-```
+**📝 See `env.sample` for optional configuration (analytics, contact form, feature flags)**
 
 **📚 Full API documentation available in [`docs/API_DOCUMENTATION.md`](docs/API_DOCUMENTATION.md)**
 
