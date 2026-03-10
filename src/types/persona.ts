@@ -1,4 +1,4 @@
-export type PersonaType = 'techie' | 'influencer' | 'branding' | 'fitness';
+export type PersonaType = 'techie' | 'influencer' | 'fitness';
 
 export interface PersonaStat {
   label: string;
@@ -14,4 +14,5 @@ export interface PersonaConfig {
   secondaryColor: string;
   tagline: string;
   stats: PersonaStat[];
+  isAvailable: boolean;
 }

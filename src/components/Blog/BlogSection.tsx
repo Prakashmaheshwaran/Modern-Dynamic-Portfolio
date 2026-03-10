@@ -5,6 +5,7 @@ import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 import { useBlogData } from '../../hooks/useBlogData';
 import { BlogPost } from '../../config/blogConfig';
 import soundManager from '../../utils/soundManager';
+import { SITE_CONFIG } from '../../config/siteConfig';
 
 const BlogContainer = styled.section`
   padding: 4rem 0;
@@ -261,7 +262,7 @@ const BlogSection: React.FC = () => {
   const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
   const renderBlogCard = (blog: BlogPost, index: number) => (
-    <BlogCard key={`${blog.id || blog.title}-${index}`} variants={cardVariants} whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }} onClick={() => handleBlogClick(blog.url)}>
+    <BlogCard key={`${blog.id || blog.title}-${index}`} variants={cardVariants} whileHover={{ scale: 1.01 }} onClick={() => handleBlogClick(blog.url)} aria-label={`Read blog post: ${blog.title}`}>
       <BlogImage $imageUrl={blog.cover_image} />
       <BlogCardContent>
         <BlogCardTitle>{blog.title}</BlogCardTitle>
@@ -277,7 +278,7 @@ const BlogSection: React.FC = () => {
         {blog.tag_list && blog.tag_list.length > 0 && (
           <BlogTags>{blog.tag_list.slice(0, 3).map(tag => <TagItem key={tag}>#{tag}</TagItem>)}</BlogTags>
         )}
-        <ReadMoreButton whileHover={{ scale: 1.05 }}>[ Read Report ]</ReadMoreButton>
+        <ReadMoreButton whileHover={{ scale: 1.05 }} onClick={(e: React.MouseEvent) => e.stopPropagation()}>[ Read Report ]</ReadMoreButton>
       </BlogCardContent>
     </BlogCard>
   );
@@ -301,7 +302,7 @@ const BlogSection: React.FC = () => {
                 {blogs.map((blog, index) => renderBlogCard(blog, index))}
               </BlogGrid>
               <ViewMoreContainer initial={{ opacity: 0 }} animate={isIntersecting ? { opacity: 1 } : { opacity: 0 }} transition={{ duration: 0.6, delay: 0.8 }}>
-                <ViewMoreButton href="https://dev.to/prakash_maheshwaran" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05 }}>View All Reports</ViewMoreButton>
+                <ViewMoreButton href={SITE_CONFIG.links.devTo} target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05 }}>View All Reports</ViewMoreButton>
               </ViewMoreContainer>
             </>
           )}

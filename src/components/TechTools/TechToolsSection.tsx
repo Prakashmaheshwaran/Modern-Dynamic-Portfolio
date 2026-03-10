@@ -113,7 +113,7 @@ const TechToolsSection: React.FC = () => {
 
         <TechToolsGrid variants={containerVariants} initial="hidden" animate={isIntersecting ? "visible" : "hidden"}>
           {allTools.map((tool) => (
-            <TechToolItem key={tool.id} variants={itemVariants} whileHover={{ scale: 1.08 }}>
+            <TechToolItem key={tool.id} variants={itemVariants} whileHover={{ scale: 1.08 }} title={tool.name} aria-label={`Technology: ${tool.name}`}>
               <TechIcon color={tool.color}><LogoIcon name={tool.icon} size={36} color={tool.color} /></TechIcon>
               <TechName>{tool.name}</TechName>
             </TechToolItem>

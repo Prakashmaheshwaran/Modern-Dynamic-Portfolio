@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styled, { keyframes, css } from 'styled-components';
-import { FaSkull, FaFireAlt, FaCrosshairs, FaFistRaised } from 'react-icons/fa';
+import { FaSkull, FaFireAlt, FaFistRaised, FaLock } from 'react-icons/fa';
 import { PersonaType, PersonaConfig } from '../../types/persona';
 import { personas } from '../../data/personaData';
 import ParticleBackground from './ParticleBackground';
@@ -15,9 +15,9 @@ type IconComponent = React.ComponentType<{ className?: string; style?: React.CSS
 const iconMap: Record<PersonaType, IconComponent> = {
   techie: FaSkull as unknown as IconComponent,
   influencer: FaFireAlt as unknown as IconComponent,
-  branding: FaCrosshairs as unknown as IconComponent,
   fitness: FaFistRaised as unknown as IconComponent,
 };
+const LockIcon = FaLock as unknown as IconComponent;
 
 const scanLineScroll = keyframes`
   0% { background-position: 0 0; }
@@ -53,6 +53,11 @@ const cornerBlink = keyframes`
 const hexRotate = keyframes`
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+`;
+
+const badgePulse = keyframes`
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
 `;
 
 const ScreenContainer = styled(motion.div)<{ $shaking: boolean }>`
@@ -111,7 +116,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1100px;
   padding: 1.5rem 2rem;
   gap: 2rem;
 
@@ -159,28 +164,29 @@ const HeaderSubline = styled(motion.p)`
 
 const CharacterGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.2rem;
   width: 100%;
 
-  @media (max-width: 1024px) { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-  @media (max-width: 480px) { grid-template-columns: 1fr; gap: 0.8rem; }
+  @media (max-width: 1024px) { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  @media (max-width: 768px) { grid-template-columns: 1fr; gap: 0.8rem; }
 `;
 
 const CharacterCard = styled(motion.div)<{
   $accentColor: string;
   $isSelected: boolean;
   $isOther: boolean;
+  $isAvailable: boolean;
 }>`
   position: relative;
   background: rgba(12, 13, 16, 0.95);
-  border: 1px solid ${({ $accentColor }) => $accentColor}15;
+  border: 1px solid ${({ $accentColor, $isAvailable }) => $isAvailable ? `${$accentColor}25` : `${$accentColor}10`};
   padding: 2rem 1.2rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.8rem;
-  cursor: pointer;
+  cursor: ${({ $isAvailable }) => $isAvailable ? 'pointer' : 'default'};
   user-select: none;
   min-height: 260px;
   transition: all 0.4s ease;
@@ -192,6 +198,7 @@ const CharacterCard = styled(motion.div)<{
   );
 
   ${({ $isOther }) => $isOther && css`opacity: 0.15; pointer-events: none;`}
+  ${({ $isAvailable, $isOther }) => !$isAvailable && !$isOther && css`opacity: 0.6;`}
 
   &::before {
     content: '';
@@ -210,13 +217,13 @@ const CharacterCard = styled(motion.div)<{
   &:hover::before {
     background: linear-gradient(
       180deg,
-      ${({ $accentColor }) => $accentColor}20 0%,
-      ${({ $accentColor }) => $accentColor}08 60%,
+      ${({ $accentColor, $isAvailable }) => $isAvailable ? `${$accentColor}20` : `${$accentColor}0a`} 0%,
+      ${({ $accentColor, $isAvailable }) => $isAvailable ? `${$accentColor}08` : 'transparent'} 60%,
       transparent 100%
     );
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     flex-direction: row;
     min-height: auto;
     padding: 1rem;
@@ -269,12 +276,13 @@ const CornerBracket = styled.div<{ $position: string; $accentColor: string }>`
   @media (max-width: 480px) { width: 10px; height: 10px; }
 `;
 
-const IconWrapper = styled.div<{ $accentColor: string }>`
+const IconWrapper = styled.div<{ $accentColor: string; $dimmed: boolean }>`
   font-size: 3rem;
   color: ${({ $accentColor }) => $accentColor};
   filter: drop-shadow(0 0 20px ${({ $accentColor }) => $accentColor}40);
   transition: filter 0.4s ease, transform 0.4s ease;
   position: relative;
+  opacity: ${({ $dimmed }) => $dimmed ? 0.5 : 1};
 
   &::after {
     content: '';
@@ -285,7 +293,7 @@ const IconWrapper = styled.div<{ $accentColor: string }>`
     animation: ${hexRotate} 12s linear infinite;
   }
 
-  @media (max-width: 480px) { font-size: 2rem; flex-shrink: 0; &::after { display: none; } }
+  @media (max-width: 768px) { font-size: 2rem; flex-shrink: 0; &::after { display: none; } }
 `;
 
 const CardContent = styled.div`
@@ -295,7 +303,7 @@ const CardContent = styled.div`
   gap: 0.4rem;
   text-align: center;
 
-  @media (max-width: 480px) { align-items: flex-start; text-align: left; }
+  @media (max-width: 768px) { align-items: flex-start; text-align: left; }
 `;
 
 const PersonaTitle = styled.h2<{ $accentColor: string }>`
@@ -325,7 +333,7 @@ const PersonaDescription = styled.p`
   line-height: 1.5;
   margin: 0;
 
-  @media (max-width: 480px) { display: none; }
+  @media (max-width: 768px) { display: none; }
 `;
 
 const Tagline = styled(motion.p)<{ $accentColor: string }>`
@@ -338,7 +346,7 @@ const Tagline = styled(motion.p)<{ $accentColor: string }>`
   padding-top: 0.5rem;
   opacity: 0.6;
 
-  @media (max-width: 480px) { display: none; }
+  @media (max-width: 768px) { display: none; }
 `;
 
 const StatsContainer = styled(motion.div)`
@@ -348,7 +356,7 @@ const StatsContainer = styled(motion.div)`
   gap: 0.4rem;
   margin-top: 0.5rem;
 
-  @media (max-width: 480px) { display: none; }
+  @media (max-width: 768px) { display: none; }
 `;
 
 const StatRow = styled.div`
@@ -399,6 +407,81 @@ const SelectionFlash = styled(motion.div)`
   background: #ffffff;
   pointer-events: none;
 `;
+
+/* --- Availability badges --- */
+
+const ActiveBadge = styled.div<{ $accentColor: string }>`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-family: var(--font-mono, 'Share Tech Mono', monospace);
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: ${({ $accentColor }) => $accentColor};
+  background: ${({ $accentColor }) => $accentColor}15;
+  border: 1px solid ${({ $accentColor }) => $accentColor}40;
+  padding: 2px 10px;
+  z-index: 4;
+  animation: ${badgePulse} 2s ease-in-out infinite;
+
+  @media (max-width: 768px) { font-size: 0.45rem; padding: 1px 6px; top: 6px; right: 6px; }
+`;
+
+const ClassifiedStamp = styled.div<{ $accentColor: string }>`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-15deg);
+  font-family: var(--font-secondary, 'Teko', sans-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: ${({ $accentColor }) => $accentColor}30;
+  border: 3px solid ${({ $accentColor }) => $accentColor}20;
+  padding: 4px 16px;
+  pointer-events: none;
+  z-index: 4;
+  white-space: nowrap;
+
+  @media (max-width: 768px) { font-size: 1rem; letter-spacing: 0.1em; padding: 2px 10px; }
+`;
+
+const LockOverlay = styled.div<{ $accentColor: string }>`
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  z-index: 5;
+  pointer-events: none;
+
+  svg {
+    font-size: 0.55rem;
+    color: ${({ $accentColor }) => $accentColor};
+    opacity: 0.5;
+  }
+
+  span {
+    font-family: var(--font-mono, 'Share Tech Mono', monospace);
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: ${({ $accentColor }) => $accentColor};
+    opacity: 0.5;
+  }
+
+  @media (max-width: 768px) {
+    position: static;
+    transform: none;
+    margin-left: auto;
+  }
+`;
+
+/* --- Animation variants --- */
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -496,15 +579,15 @@ const CharacterSelectScreen: React.FC<CharacterSelectScreenProps> = ({ onSelect 
             animate={{ opacity: 0.7 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            Select Operator
+            {'// Operator Database'}
           </HeaderLabel>
-          <HeaderTitle>Choose Your Callsign</HeaderTitle>
+          <HeaderTitle>Access Operator Files</HeaderTitle>
           <HeaderSubline
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.6 }}
           >
-            Deploy with your preferred loadout
+            Select an operator dossier to deploy
           </HeaderSubline>
         </Header>
 
@@ -558,12 +641,16 @@ const CharacterCardItem: React.FC<CardItemProps> = ({
   onSelect,
   onKeyDown,
 }) => {
+  const available = persona.isAvailable;
+
   return (
     <CharacterCard
       variants={cardVariants}
       whileHover={
-        !isSelected && !isOther
+        !isSelected && !isOther && available
           ? { scale: 1.03, y: -6, transition: { type: 'spring', stiffness: 300, damping: 18 } }
+          : !isSelected && !isOther && !available
+          ? { scale: 1.01, transition: { type: 'spring', stiffness: 300, damping: 18 } }
           : undefined
       }
       whileTap={!isSelected && !isOther ? { scale: 0.98 } : undefined}
@@ -571,13 +658,17 @@ const CharacterCardItem: React.FC<CardItemProps> = ({
       $accentColor={persona.accentColor}
       $isSelected={isSelected}
       $isOther={isOther}
+      $isAvailable={available}
       onMouseEnter={() => onHover(persona.id)}
       onMouseLeave={() => onHover(null)}
       onClick={() => onSelect(persona.id)}
       onKeyDown={(e) => onKeyDown(e, persona.id)}
       role="button"
       tabIndex={0}
-      aria-label={`Select ${persona.title} operator: ${persona.description}`}
+      aria-label={available
+        ? `Select ${persona.title} operator: ${persona.description}`
+        : `${persona.title} operator — coming soon`
+      }
     >
       <GlowBorder $accentColor={persona.accentColor} $active={isHovered || isSelected} />
       <CornerBracket $position="top-left" $accentColor={persona.accentColor} />
@@ -585,7 +676,10 @@ const CharacterCardItem: React.FC<CardItemProps> = ({
       <CornerBracket $position="bottom-left" $accentColor={persona.accentColor} />
       <CornerBracket $position="bottom-right" $accentColor={persona.accentColor} />
 
-      <IconWrapper $accentColor={persona.accentColor}>
+      {available && <ActiveBadge $accentColor={persona.accentColor}>Active</ActiveBadge>}
+      {!available && <ClassifiedStamp $accentColor={persona.accentColor}>Classified</ClassifiedStamp>}
+
+      <IconWrapper $accentColor={persona.accentColor} $dimmed={!available}>
         {(() => { const Icon = iconMap[persona.id]; return <Icon />; })()}
       </IconWrapper>
 
@@ -595,38 +689,47 @@ const CharacterCardItem: React.FC<CardItemProps> = ({
         <PersonaDescription>{persona.description}</PersonaDescription>
       </CardContent>
 
-      <Tagline
-        $accentColor={persona.accentColor}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isHovered ? 0.8 : 0.3 }}
-        transition={{ duration: 0.3 }}
-      >
-        {persona.tagline}
-      </Tagline>
+      {available ? (
+        <Tagline
+          $accentColor={persona.accentColor}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isHovered ? 0.8 : 0.3 }}
+          transition={{ duration: 0.3 }}
+        >
+          {persona.tagline}
+        </Tagline>
+      ) : (
+        <LockOverlay $accentColor={persona.accentColor}>
+          <LockIcon />
+          <span>Deployment Pending</span>
+        </LockOverlay>
+      )}
 
-      <StatsContainer
-        initial={{ opacity: 0, height: 0 }}
-        animate={{
-          opacity: isHovered ? 1 : 0,
-          height: isHovered ? 'auto' : 0,
-        }}
-        transition={{ duration: 0.3 }}
-      >
-        {persona.stats.map((stat, i) => (
-          <StatRow key={stat.label}>
-            <StatLabel>{stat.label}</StatLabel>
-            <StatBarOuter>
-              <StatBarFill
-                $accentColor={persona.accentColor}
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: isHovered ? stat.value / 100 : 0 }}
-                transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
-              />
-            </StatBarOuter>
-            <StatValue $accentColor={persona.accentColor}>{stat.value}</StatValue>
-          </StatRow>
-        ))}
-      </StatsContainer>
+      {available && (
+        <StatsContainer
+          initial={{ opacity: 0, height: 0 }}
+          animate={{
+            opacity: isHovered ? 1 : 0,
+            height: isHovered ? 'auto' : 0,
+          }}
+          transition={{ duration: 0.3 }}
+        >
+          {persona.stats.map((stat, i) => (
+            <StatRow key={stat.label}>
+              <StatLabel>{stat.label}</StatLabel>
+              <StatBarOuter>
+                <StatBarFill
+                  $accentColor={persona.accentColor}
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: isHovered ? stat.value / 100 : 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.08, ease: 'easeOut' }}
+                />
+              </StatBarOuter>
+              <StatValue $accentColor={persona.accentColor}>{stat.value}</StatValue>
+            </StatRow>
+          ))}
+        </StatsContainer>
+      )}
     </CharacterCard>
   );
 };

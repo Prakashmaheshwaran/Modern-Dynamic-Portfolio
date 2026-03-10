@@ -6,6 +6,16 @@ class SoundManager {
   private masterGain: GainNode | null = null;
   private muted: boolean = false;
   private volume: number = 0.3;
+  private lastPlayTime: Map<string, number> = new Map();
+  private debounceMs: number = 50;
+
+  private shouldPlay(soundId: string): boolean {
+    const now = Date.now();
+    const lastTime = this.lastPlayTime.get(soundId) || 0;
+    if (now - lastTime < this.debounceMs) return false;
+    this.lastPlayTime.set(soundId, now);
+    return true;
+  }
 
   private getContext(): AudioContext {
     if (!this.audioContext) {
@@ -46,7 +56,7 @@ class SoundManager {
 
   // Military radio click - short, sharp
   playUIClick() {
-    if (this.muted) return;
+    if (this.muted || !this.shouldPlay('click')) return;
     const ctx = this.getContext();
     const out = this.getOutput();
     const now = ctx.currentTime;
@@ -66,7 +76,7 @@ class SoundManager {
 
   // Hover sound - subtle tick
   playUIHover() {
-    if (this.muted) return;
+    if (this.muted || !this.shouldPlay('hover')) return;
     const ctx = this.getContext();
     const out = this.getOutput();
     const now = ctx.currentTime;
@@ -85,7 +95,7 @@ class SoundManager {
 
   // Character/operator select confirmation - dramatic hit
   playSelectConfirm() {
-    if (this.muted) return;
+    if (this.muted || !this.shouldPlay('confirm')) return;
     const ctx = this.getContext();
     const out = this.getOutput();
     const now = ctx.currentTime;

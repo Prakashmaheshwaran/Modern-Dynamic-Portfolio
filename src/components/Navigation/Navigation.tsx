@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { motion } from 'framer-motion';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
 import { scrollToSection } from '../../utils/scrollUtils';
 import soundManager from '../../utils/soundManager';
+import { SITE_CONFIG } from '../../config/siteConfig';
 import {
   FaHome,
   FaRoute,
@@ -163,18 +164,18 @@ const Divider = styled.div`
 const navItems: NavItem[] = [
   { id: 'hero', label: 'HQ', icon: FaHome, tooltip: 'HQ' },
   { id: 'about', label: 'Dossier', icon: FaRoute, tooltip: 'Dossier' },
-  { id: 'github', label: 'GitHub', icon: FaGithub, tooltip: 'Arsenal', isExternal: true, url: 'https://github.com/Prakashmaheshwaran' },
-  { id: 'linkedin', label: 'LinkedIn', icon: FaLinkedin, tooltip: 'Network', isExternal: true, url: 'https://www.linkedin.com/in/prakash-maheshwaran/' },
-  { id: 'devto', label: 'Dev.to', icon: SiDevdotto, tooltip: 'Dispatch', isExternal: true, url: 'https://dev.to/prakash_maheshwaran' },
-  { id: 'biolink', label: 'Bio Link', icon: FaLink, tooltip: 'Comms', isExternal: true, url: 'https://bio.link/kash_' },
-  { id: 'email', label: 'Email', icon: FaEnvelope, tooltip: 'Contact', isExternal: true, url: 'mailto:pmaheshwaran@binghamton.edu' }
+  { id: 'github', label: 'GitHub', icon: FaGithub, tooltip: 'Arsenal', isExternal: true, url: SITE_CONFIG.links.github },
+  { id: 'linkedin', label: 'LinkedIn', icon: FaLinkedin, tooltip: 'Network', isExternal: true, url: SITE_CONFIG.links.linkedin },
+  { id: 'devto', label: 'Dev.to', icon: SiDevdotto, tooltip: 'Dispatch', isExternal: true, url: SITE_CONFIG.links.devTo },
+  { id: 'biolink', label: 'Bio Link', icon: FaLink, tooltip: 'Comms', isExternal: true, url: SITE_CONFIG.links.bioLink },
+  { id: 'email', label: 'Email', icon: FaEnvelope, tooltip: 'Contact', isExternal: true, url: SITE_CONFIG.links.email }
 ];
 
 const Navigation: React.FC<NavigationProps> = ({ currentSection, onSectionChange }) => {
   const sectionIds = navItems.filter(item => !item.isExternal).map(item => item.id);
   const activeSection = useScrollSpy({ sections: sectionIds, offset: 100 });
   const [isHidden, setIsHidden] = useState(false);
-  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     onSectionChange(activeSection);
@@ -186,20 +187,18 @@ const Navigation: React.FC<NavigationProps> = ({ currentSection, onSectionChange
 
     const handleScroll = () => {
       setIsHidden(false);
-      if (scrollTimeout) clearTimeout(scrollTimeout);
-      const timeout = setTimeout(() => setIsHidden(true), 6000);
-      setScrollTimeout(timeout);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => setIsHidden(true), 6000);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    const initialTimeout = setTimeout(() => setIsHidden(true), 6000);
-    setScrollTimeout(initialTimeout);
+    scrollTimeoutRef.current = setTimeout(() => setIsHidden(true), 6000);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (scrollTimeout) clearTimeout(scrollTimeout);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
-  }, [scrollTimeout]);
+  }, []);
 
   const handleNavClick = (item: NavItem) => {
     soundManager.playUIClick();
@@ -233,6 +232,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentSection, onSectionChange
       variants={navVariants}
       initial="hidden"
       animate="visible"
+      aria-label="Main navigation"
     >
       {internalItems.map((item) => {
         const IconComponent = item.icon as React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
@@ -245,6 +245,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentSection, onSectionChange
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               title={item.tooltip}
+              aria-label={`Navigate to ${item.tooltip}`}
             >
               <IconComponent />
               <Tooltip
@@ -269,6 +270,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentSection, onSectionChange
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               title={item.tooltip}
+              aria-label={`Open ${item.label} (external link)`}
             >
               <IconComponent />
               <Tooltip

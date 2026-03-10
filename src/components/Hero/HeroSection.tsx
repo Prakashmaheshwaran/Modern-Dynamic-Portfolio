@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import soundManager from '../../utils/soundManager';
+import { SITE_CONFIG } from '../../config/siteConfig';
 import myGif from '../../assets/images/my.gif';
 
 interface HeroSectionProps {
@@ -398,14 +399,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onSectionChange }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdownClosing, setIsDropdownClosing] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const isDropdownOpenRef = useRef(isDropdownOpen);
 
-  const roles = useMemo(() => [
-    'AI Architect — Autodesk',
-    'AI Researcher',
-    'Automation Engineer',
-    'Full Stack Developer',
-    'Love to draw and bake'
-  ], []);
+  // Keep ref in sync
+  useEffect(() => {
+    isDropdownOpenRef.current = isDropdownOpen;
+  }, [isDropdownOpen]);
+
+  const roles = useMemo(() => SITE_CONFIG.roles, []);
 
   useEffect(() => {
     if (!isTyping) return;
@@ -449,25 +450,34 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onSectionChange }) => {
     setIsDropdownClosing(false);
   };
 
-  const closeDropdown = () => {
+  const closeDropdown = useCallback(() => {
     setIsDropdownClosing(true);
     setTimeout(() => { setIsDropdownOpen(false); setIsDropdownClosing(false); }, 300);
-  };
+  }, []);
 
-  const handleLinkedIn = () => { soundManager.playUIClick(); window.open('https://www.linkedin.com/in/prakash-maheshwaran/', '_blank'); closeDropdown(); };
-  const handleSendEmail = () => { soundManager.playUIClick(); window.open('mailto:pmaheshwaran@binghamton.edu?subject=Hello from Portfolio', '_blank'); closeDropdown(); };
-  const handleBioLink = () => { soundManager.playUIClick(); window.open('https://bio.link/kash_', '_blank'); closeDropdown(); };
+  const handleLinkedIn = () => { soundManager.playUIClick(); window.open(SITE_CONFIG.links.linkedin, '_blank'); closeDropdown(); };
+  const handleSendEmail = () => { soundManager.playUIClick(); window.open(`${SITE_CONFIG.links.email}?subject=Hello from Portfolio`, '_blank'); closeDropdown(); };
+  const handleBioLink = () => { soundManager.playUIClick(); window.open(SITE_CONFIG.links.bioLink, '_blank'); closeDropdown(); };
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => { if (event.key === 'Escape' && isDropdownOpen) closeDropdown(); };
-    const handleClickOutside = () => { if (isDropdownOpen) closeDropdown(); };
-    if (isDropdownOpen) {
-      document.addEventListener('keydown', handleKeyDown);
-      const timeoutId = setTimeout(() => document.addEventListener('click', handleClickOutside), 100);
-      return () => { document.removeEventListener('keydown', handleKeyDown); document.removeEventListener('click', handleClickOutside); clearTimeout(timeoutId); };
-    }
-    return () => { document.removeEventListener('keydown', handleKeyDown); document.removeEventListener('click', handleClickOutside); };
-  }, [isDropdownOpen]);
+    if (!isDropdownOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isDropdownOpenRef.current) closeDropdown();
+    };
+    const handleClickOutside = () => {
+      if (isDropdownOpenRef.current) closeDropdown();
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    const timeoutId = setTimeout(() => document.addEventListener('click', handleClickOutside), 100);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('click', handleClickOutside);
+      clearTimeout(timeoutId);
+    };
+  }, [isDropdownOpen, closeDropdown]);
 
   return (
     <HeroContainer id="hero">
@@ -488,20 +498,24 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onSectionChange }) => {
             </MainContent>
 
             <ActionSection ref={dropdownRef} $isDropdownOpen={isDropdownOpen}>
-              <AnimatedButton onClick={handleButtonClick} $isVisible={!isDropdownOpen}>
+              <AnimatedButton
+                onClick={handleButtonClick}
+                $isVisible={!isDropdownOpen}
+                aria-label="Open contact options"
+              >
                 Request Comms
               </AnimatedButton>
               <ContactButtons $isOpen={isDropdownOpen} $isClosing={isDropdownClosing}>
-                <ContactOption onClick={handleLinkedIn}>LinkedIn</ContactOption>
-                <ContactOption onClick={handleSendEmail}>Email</ContactOption>
-                <ContactOption onClick={handleBioLink}>Bio Link</ContactOption>
+                <ContactOption onClick={handleLinkedIn} aria-label="Open LinkedIn profile">LinkedIn</ContactOption>
+                <ContactOption onClick={handleSendEmail} aria-label="Send email">Email</ContactOption>
+                <ContactOption onClick={handleBioLink} aria-label="Open bio link">Bio Link</ContactOption>
               </ContactButtons>
             </ActionSection>
 
             <StatusBar>
-              <StatusItem $color="rgba(74, 222, 128, 0.7)">Status: Active</StatusItem>
-              <StatusItem $color="rgba(255, 140, 0, 0.7)">Clearance: Top Secret</StatusItem>
-              <StatusItem $color="rgba(56, 189, 248, 0.7)">Location: USA</StatusItem>
+              {SITE_CONFIG.statusBar.map((item) => (
+                <StatusItem key={item.label} $color={item.color}>{item.label}</StatusItem>
+              ))}
             </StatusBar>
           </LeftSection>
 

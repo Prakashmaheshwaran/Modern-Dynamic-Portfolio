@@ -11,9 +11,11 @@ import TechToolsSection from './components/TechTools/TechToolsSection';
 import BlogSection from './components/Blog/BlogSection';
 import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 import CharacterSelectScreen from './components/CharacterSelect/CharacterSelectScreen';
+import ComingSoonScreen from './components/ComingSoon/ComingSoonScreen';
 
-// Types
+// Data & Types
 import { PersonaType } from './types/persona';
+import { personas } from './data/personaData';
 
 // Styles
 import GlobalStyles from './styles/GlobalStyles';
@@ -21,7 +23,7 @@ import GlobalStyles from './styles/GlobalStyles';
 // Sound
 import soundManager from './utils/soundManager';
 
-type AppPhase = 'loading' | 'character-select' | 'portfolio';
+type AppPhase = 'loading' | 'character-select' | 'portfolio' | 'coming-soon';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -75,7 +77,7 @@ const contentVariants = {
 
 function App() {
   const [appPhase, setAppPhase] = useState<AppPhase>('loading');
-  const [, setSelectedPersona] = useState<PersonaType | null>(null);
+  const [selectedPersona, setSelectedPersona] = useState<PersonaType | null>(null);
   const [currentSection, setCurrentSection] = useState('hero');
   const [isMuted, setIsMuted] = useState(false);
 
@@ -91,7 +93,18 @@ function App() {
   const handleCharacterSelect = useCallback((persona: PersonaType) => {
     setSelectedPersona(persona);
     window.scrollTo(0, 0);
-    setAppPhase('portfolio');
+
+    const personaConfig = personas.find(p => p.id === persona);
+    if (personaConfig?.isAvailable) {
+      setAppPhase('portfolio');
+    } else {
+      setAppPhase('coming-soon');
+    }
+  }, []);
+
+  const handleBackToSelect = useCallback(() => {
+    setSelectedPersona(null);
+    setAppPhase('character-select');
   }, []);
 
   const handleSectionChange = (section: string) => {
@@ -102,6 +115,8 @@ function App() {
     const muted = soundManager.toggleMute();
     setIsMuted(muted);
   };
+
+  const selectedPersonaConfig = personas.find(p => p.id === selectedPersona);
 
   return (
     <>
@@ -136,9 +151,21 @@ function App() {
               <BlogSection />
             </ContentWrapper>
           )}
+
+          {appPhase === 'coming-soon' && selectedPersonaConfig && (
+            <ComingSoonScreen
+              key="coming-soon"
+              persona={selectedPersonaConfig}
+              onBack={handleBackToSelect}
+            />
+          )}
         </AnimatePresence>
 
-        <MuteButton onClick={handleMuteToggle} title={isMuted ? 'Unmute sounds' : 'Mute sounds'}>
+        <MuteButton
+          onClick={handleMuteToggle}
+          title={isMuted ? 'Unmute sounds' : 'Mute sounds'}
+          aria-label={isMuted ? 'Unmute sounds' : 'Mute sounds'}
+        >
           {isMuted ? '🔇' : '🔊'}
         </MuteButton>
       </AppContainer>

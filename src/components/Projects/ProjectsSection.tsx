@@ -6,6 +6,7 @@ import { useProjectsData } from '../../hooks/useProjectsData';
 import { ProcessedProject } from '../../config/projectsConfig';
 import { getProjectsByCategory } from '../../data/projectsData';
 import soundManager from '../../utils/soundManager';
+import { SITE_CONFIG } from '../../config/siteConfig';
 
 const ProjectsContainer = styled.section`
   padding: 4rem 0;
@@ -376,7 +377,7 @@ const ProjectsSection: React.FC = () => {
               </AnimatePresence>
             </ProjectsGrid>
             <ViewMoreContainer initial={{ opacity: 0 }} animate={isIntersecting ? { opacity: 1 } : { opacity: 0 }} transition={{ duration: 0.6, delay: 0.8 }}>
-              <ViewMoreButton href="https://github.com/Prakashmaheshwaran" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05 }}>Full Arsenal on GitHub</ViewMoreButton>
+              <ViewMoreButton href={SITE_CONFIG.links.github} target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05 }}>Full Arsenal on GitHub</ViewMoreButton>
             </ViewMoreContainer>
           </>
         )}

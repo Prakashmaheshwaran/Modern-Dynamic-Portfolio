@@ -69,7 +69,6 @@ const GlobalStyles = createGlobalStyle`
     /* Character Select Accent Colors */
     --cs-techie: #4ade80;
     --cs-influencer: #f472b6;
-    --cs-branding: #fbbf24;
     --cs-fitness: #ef4444;
     --cs-bg: #0a0a0a;
     --cs-card-bg: rgba(15, 15, 15, 0.9);
@@ -186,7 +185,7 @@ const GlobalStyles = createGlobalStyle`
 
     @media (max-width: 480px) {
       max-width: 100%;
-      padding: 0 10% 0 0;
+      padding: 0 1rem;
     }
   }
 
@@ -245,13 +244,6 @@ const GlobalStyles = createGlobalStyle`
       margin-bottom: 0.75rem;
     }
 
-    section {
-      padding-right: 10% !important;
-    }
-
-    .container, [class*="Container"], [class*="Section"] {
-      padding-right: 10% !important;
-    }
   }
 `;
 
