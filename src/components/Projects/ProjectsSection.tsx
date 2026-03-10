@@ -304,9 +304,9 @@ const ProjectsSection: React.FC = () => {
   const filters = useMemo(() => {
     if (showDynamic && githubProjects.length > 0) {
       const languages = Array.from(new Set(githubProjects.map(p => p.language).filter(Boolean)));
-      return [{ key: 'all', label: 'All' }, ...languages.slice(0, 4).map(lang => ({ key: lang.toLowerCase(), label: lang }))];
+      return [{ key: 'all', label: 'All Ops' }, ...languages.slice(0, 4).map(lang => ({ key: lang.toLowerCase(), label: lang }))];
     }
-    return [{ key: 'all', label: 'All' }, { key: 'automation', label: 'Automation' }, { key: 'ml', label: 'AI/ML' }, { key: 'web', label: 'Web' }, { key: 'research', label: 'Research' }];
+    return [{ key: 'all', label: 'All Ops' }, { key: 'automation', label: 'Automation' }, { key: 'ml', label: 'AI/ML' }, { key: 'web', label: 'Web Ops' }, { key: 'research', label: 'Recon' }];
   }, [showDynamic, githubProjects]);
 
   const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.2 } } };
@@ -354,8 +354,8 @@ const ProjectsSection: React.FC = () => {
   return (
     <ProjectsContainer ref={sectionRef} id="projects">
       <div className="container">
-        <SectionLabel initial={{ opacity: 0 }} animate={isIntersecting ? { opacity: 0.6 } : { opacity: 0 }} transition={{ duration: 0.6 }}>{'// Portfolio'}</SectionLabel>
-        <SectionTitle initial={{ opacity: 0, y: 30 }} animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }} transition={{ duration: 0.6 }}>Projects</SectionTitle>
+        <SectionLabel initial={{ opacity: 0 }} animate={isIntersecting ? { opacity: 0.6 } : { opacity: 0 }} transition={{ duration: 0.6 }}>{'// Mission Log'}</SectionLabel>
+        <SectionTitle initial={{ opacity: 0, y: 30 }} animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }} transition={{ duration: 0.6 }}>Operations</SectionTitle>
         <ProjectFilters initial={{ opacity: 0 }} animate={isIntersecting ? { opacity: 1 } : { opacity: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
           {filters.map(filter => (
             <FilterButton key={filter.key} $isActive={activeFilter === filter.key} onClick={() => { soundManager.playUIClick(); setActiveFilter(filter.key); }} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>{filter.label}</FilterButton>
@@ -363,11 +363,11 @@ const ProjectsSection: React.FC = () => {
         </ProjectFilters>
 
         {loading ? (
-          <LoadingContainer><div><LoadingSpinner animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} /><p>Loading projects...</p></div></LoadingContainer>
+          <LoadingContainer><div><LoadingSpinner animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} /><p>Loading missions...</p></div></LoadingContainer>
         ) : error && showDynamic ? (
-          <ErrorContainer><h3>Connection Error</h3><p>{error}</p><RetryButton onClick={() => { refetch(); setTimeout(() => setShowDynamic(false), 5000); }}>Retry</RetryButton><RetryButton onClick={() => setShowDynamic(false)} style={{ marginLeft: '0.5rem', background: 'transparent' }}>Use Cached Data</RetryButton></ErrorContainer>
+          <ErrorContainer><h3>Signal Lost</h3><p>{error}</p><RetryButton onClick={() => { refetch(); setTimeout(() => setShowDynamic(false), 5000); }}>Retry</RetryButton><RetryButton onClick={() => setShowDynamic(false)} style={{ marginLeft: '0.5rem', background: 'transparent' }}>Use Cached Data</RetryButton></ErrorContainer>
         ) : filteredProjects.length === 0 ? (
-          <EmptyState><h3>No Projects Found</h3><p>Working on new projects in AI, automation, and web development. Check back soon.</p></EmptyState>
+          <EmptyState><h3>No Missions Found</h3><p>Working on new projects in AI, automation, and web development. Check back soon.</p></EmptyState>
         ) : (
           <>
             <ProjectsGrid variants={containerVariants} initial="hidden" animate={isIntersecting ? "visible" : "hidden"}>
@@ -376,7 +376,7 @@ const ProjectsSection: React.FC = () => {
               </AnimatePresence>
             </ProjectsGrid>
             <ViewMoreContainer initial={{ opacity: 0 }} animate={isIntersecting ? { opacity: 1 } : { opacity: 0 }} transition={{ duration: 0.6, delay: 0.8 }}>
-              <ViewMoreButton href="https://github.com/Prakashmaheshwaran" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05 }}>View All on GitHub</ViewMoreButton>
+              <ViewMoreButton href="https://github.com/Prakashmaheshwaran" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05 }}>Full Arsenal on GitHub</ViewMoreButton>
             </ViewMoreContainer>
           </>
         )}

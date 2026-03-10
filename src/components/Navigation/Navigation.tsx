@@ -161,13 +161,13 @@ const Divider = styled.div`
 `;
 
 const navItems: NavItem[] = [
-  { id: 'hero', label: 'Home', icon: FaHome, tooltip: 'Home' },
-  { id: 'about', label: 'About', icon: FaRoute, tooltip: 'About' },
-  { id: 'github', label: 'GitHub', icon: FaGithub, tooltip: 'GitHub', isExternal: true, url: 'https://github.com/Prakashmaheshwaran' },
-  { id: 'linkedin', label: 'LinkedIn', icon: FaLinkedin, tooltip: 'LinkedIn', isExternal: true, url: 'https://www.linkedin.com/in/prakash-maheshwaran/' },
-  { id: 'devto', label: 'Dev.to', icon: SiDevdotto, tooltip: 'Blog', isExternal: true, url: 'https://dev.to/prakash_maheshwaran' },
-  { id: 'biolink', label: 'Bio Link', icon: FaLink, tooltip: 'Links', isExternal: true, url: 'https://bio.link/kash_' },
-  { id: 'email', label: 'Email', icon: FaEnvelope, tooltip: 'Email', isExternal: true, url: 'mailto:pmaheshwaran@binghamton.edu' }
+  { id: 'hero', label: 'HQ', icon: FaHome, tooltip: 'HQ' },
+  { id: 'about', label: 'Dossier', icon: FaRoute, tooltip: 'Dossier' },
+  { id: 'github', label: 'GitHub', icon: FaGithub, tooltip: 'Arsenal', isExternal: true, url: 'https://github.com/Prakashmaheshwaran' },
+  { id: 'linkedin', label: 'LinkedIn', icon: FaLinkedin, tooltip: 'Network', isExternal: true, url: 'https://www.linkedin.com/in/prakash-maheshwaran/' },
+  { id: 'devto', label: 'Dev.to', icon: SiDevdotto, tooltip: 'Dispatch', isExternal: true, url: 'https://dev.to/prakash_maheshwaran' },
+  { id: 'biolink', label: 'Bio Link', icon: FaLink, tooltip: 'Comms', isExternal: true, url: 'https://bio.link/kash_' },
+  { id: 'email', label: 'Email', icon: FaEnvelope, tooltip: 'Contact', isExternal: true, url: 'mailto:pmaheshwaran@binghamton.edu' }
 ];
 
 const Navigation: React.FC<NavigationProps> = ({ currentSection, onSectionChange }) => {

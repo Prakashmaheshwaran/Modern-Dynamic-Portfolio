@@ -277,7 +277,7 @@ const BlogSection: React.FC = () => {
         {blog.tag_list && blog.tag_list.length > 0 && (
           <BlogTags>{blog.tag_list.slice(0, 3).map(tag => <TagItem key={tag}>#{tag}</TagItem>)}</BlogTags>
         )}
-        <ReadMoreButton whileHover={{ scale: 1.05 }}>[ Read More ]</ReadMoreButton>
+        <ReadMoreButton whileHover={{ scale: 1.05 }}>[ Read Report ]</ReadMoreButton>
       </BlogCardContent>
     </BlogCard>
   );
@@ -286,22 +286,22 @@ const BlogSection: React.FC = () => {
     <BlogContainer ref={sectionRef} id="blog">
       <div className="container">
         <BlogContent variants={containerVariants} initial="hidden" animate={isIntersecting ? "visible" : "hidden"}>
-          <SectionLabel variants={itemVariants}>{'// Blog'}</SectionLabel>
-          <BlogTitle variants={itemVariants}>Blog Posts</BlogTitle>
+          <SectionLabel variants={itemVariants}>{'// Dispatch'}</SectionLabel>
+          <BlogTitle variants={itemVariants}>Field Reports</BlogTitle>
 
           {loading ? (
-            <LoadingContainer variants={itemVariants}><div><LoadingSpinner animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} /><p>Loading posts...</p></div></LoadingContainer>
+            <LoadingContainer variants={itemVariants}><div><LoadingSpinner animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }} /><p>Decrypting reports...</p></div></LoadingContainer>
           ) : error ? (
-            <ErrorContainer variants={itemVariants}><h3>Connection Error</h3><p>{error}</p><RetryButton onClick={refetch}>Retry</RetryButton></ErrorContainer>
+            <ErrorContainer variants={itemVariants}><h3>Signal Lost</h3><p>{error}</p><RetryButton onClick={refetch}>Retry</RetryButton></ErrorContainer>
           ) : blogs.length === 0 ? (
-            <EmptyState variants={itemVariants}><h3>No Posts Yet</h3><p>Working on new articles about AI, automation, and development. Stay tuned.</p></EmptyState>
+            <EmptyState variants={itemVariants}><h3>No Reports Filed</h3><p>New field reports on AI, automation, and development incoming. Stand by.</p></EmptyState>
           ) : (
             <>
               <BlogGrid variants={containerVariants} initial="hidden" animate={isIntersecting ? "visible" : "hidden"}>
                 {blogs.map((blog, index) => renderBlogCard(blog, index))}
               </BlogGrid>
               <ViewMoreContainer initial={{ opacity: 0 }} animate={isIntersecting ? { opacity: 1 } : { opacity: 0 }} transition={{ duration: 0.6, delay: 0.8 }}>
-                <ViewMoreButton href="https://dev.to/prakash_maheshwaran" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05 }}>View All Posts</ViewMoreButton>
+                <ViewMoreButton href="https://dev.to/prakash_maheshwaran" target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05 }}>View All Reports</ViewMoreButton>
               </ViewMoreContainer>
             </>
           )}

@@ -255,14 +255,14 @@ const AboutSection: React.FC = () => {
       <div className="container">
         <SectionHeader>
           <motion.div variants={containerVariants} initial="hidden" animate={isIntersecting ? "visible" : "hidden"}>
-            <SectionLabel variants={itemVariants}>{'// Profile'}</SectionLabel>
-            <SectionTitle variants={itemVariants}>About Me</SectionTitle>
+            <SectionLabel variants={itemVariants}>{'// Dossier'}</SectionLabel>
+            <SectionTitle variants={itemVariants}>Operator Bio</SectionTitle>
             <SectionSubtitle variants={itemVariants}>AI Architect @ Autodesk | Y Combinator Alum | MS Computer Science, SUNY</SectionSubtitle>
           </motion.div>
         </SectionHeader>
         <AboutContent variants={containerVariants} initial="hidden" animate={isIntersecting ? "visible" : "hidden"}>
           <motion.div variants={itemVariants}>
-            <JourneyHeader><h3>Experience</h3></JourneyHeader>
+            <JourneyHeader><h3>Service Record</h3></JourneyHeader>
             <Timeline>
               <TimelineItem variants={timelineVariants}><TimelineContent><h4>AI Architect, People and Places | Autodesk</h4><span className="timeline-date">2026 - Present</span><p>Architecting AI solutions for People and Places, driving intelligent automation and AI-powered systems at enterprise scale</p></TimelineContent></TimelineItem>
               <TimelineItem variants={timelineVariants}><TimelineContent><h4>Senior Research Assistant | SUNY Research Foundry</h4><span className="timeline-date">2025 - 2026</span><p>Led cutting-edge automation research with advanced AI/ML implementations and publications</p></TimelineContent></TimelineItem>

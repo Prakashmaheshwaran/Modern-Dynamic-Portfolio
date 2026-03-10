@@ -476,7 +476,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onSectionChange }) => {
         <HeroContent>
           <LeftSection>
             <MainContent>
-              <ClassLabel>{'// Operator Profile'}</ClassLabel>
+              <ClassLabel>{'// Operator File'}</ClassLabel>
               <HeroGreeting>Callsign:</HeroGreeting>
               <HeroName>Prakash Maheshwaran</HeroName>
               <RoleContainer>
@@ -489,7 +489,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onSectionChange }) => {
 
             <ActionSection ref={dropdownRef} $isDropdownOpen={isDropdownOpen}>
               <AnimatedButton onClick={handleButtonClick} $isVisible={!isDropdownOpen}>
-                Contact Me
+                Request Comms
               </AnimatedButton>
               <ContactButtons $isOpen={isDropdownOpen} $isClosing={isDropdownClosing}>
                 <ContactOption onClick={handleLinkedIn}>LinkedIn</ContactOption>
