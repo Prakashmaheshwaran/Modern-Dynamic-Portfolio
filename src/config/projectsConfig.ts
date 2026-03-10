@@ -33,8 +33,8 @@ export interface ProcessedProject {
 }
 
 export const PROJECTS_CONFIG = {
-  // Hardcoded GitHub API URL - unauthenticated (60 req/hour limit)
-  WEBHOOK_URL: 'https://api.github.com/users/Prakashmaheshwaran/repos',
+  // GitHub public API - unauthenticated (60 req/hour limit)
+  API_URL: 'https://api.github.com/users/Prakashmaheshwaran/repos?per_page=100&sort=updated',
   TIMEOUT: 15000, // 15 seconds
   MAX_PROJECTS: 9, // Top 9 projects
   FALLBACK_MESSAGE: 'Unable to load GitHub projects. Please try again later.',
