@@ -108,7 +108,7 @@ const TechToolsSection: React.FC = () => {
   return (
     <TechToolsContainer ref={sectionRef} id="tech-tools">
       <div className="container">
-        <SectionLabel initial={{ opacity: 0 }} animate={isIntersecting ? { opacity: 0.6 } : { opacity: 0 }} transition={{ duration: 0.6 }}>// Tech Stack</SectionLabel>
+        <SectionLabel initial={{ opacity: 0 }} animate={isIntersecting ? { opacity: 0.6 } : { opacity: 0 }} transition={{ duration: 0.6 }}>{'// Tech Stack'}</SectionLabel>
         <SectionTitle initial={{ opacity: 0, y: 30 }} animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }} transition={{ duration: 0.6 }}>Tools & Technologies</SectionTitle>
 
         <TechToolsGrid variants={containerVariants} initial="hidden" animate={isIntersecting ? "visible" : "hidden"}>

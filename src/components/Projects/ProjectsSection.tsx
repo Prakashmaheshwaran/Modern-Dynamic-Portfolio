@@ -354,7 +354,7 @@ const ProjectsSection: React.FC = () => {
   return (
     <ProjectsContainer ref={sectionRef} id="projects">
       <div className="container">
-        <SectionLabel initial={{ opacity: 0 }} animate={isIntersecting ? { opacity: 0.6 } : { opacity: 0 }} transition={{ duration: 0.6 }}>// Portfolio</SectionLabel>
+        <SectionLabel initial={{ opacity: 0 }} animate={isIntersecting ? { opacity: 0.6 } : { opacity: 0 }} transition={{ duration: 0.6 }}>{'// Portfolio'}</SectionLabel>
         <SectionTitle initial={{ opacity: 0, y: 30 }} animate={isIntersecting ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }} transition={{ duration: 0.6 }}>Projects</SectionTitle>
         <ProjectFilters initial={{ opacity: 0 }} animate={isIntersecting ? { opacity: 1 } : { opacity: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
           {filters.map(filter => (

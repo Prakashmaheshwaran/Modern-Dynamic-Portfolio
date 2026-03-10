@@ -476,7 +476,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onSectionChange }) => {
         <HeroContent>
           <LeftSection>
             <MainContent>
-              <ClassLabel>// Operator Profile</ClassLabel>
+              <ClassLabel>{'// Operator Profile'}</ClassLabel>
               <HeroGreeting>Callsign:</HeroGreeting>
               <HeroName>Prakash Maheshwaran</HeroName>
               <RoleContainer>

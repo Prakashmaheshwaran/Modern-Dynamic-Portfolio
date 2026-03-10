@@ -286,7 +286,7 @@ const BlogSection: React.FC = () => {
     <BlogContainer ref={sectionRef} id="blog">
       <div className="container">
         <BlogContent variants={containerVariants} initial="hidden" animate={isIntersecting ? "visible" : "hidden"}>
-          <SectionLabel variants={itemVariants}>// Blog</SectionLabel>
+          <SectionLabel variants={itemVariants}>{'// Blog'}</SectionLabel>
           <BlogTitle variants={itemVariants}>Blog Posts</BlogTitle>
 
           {loading ? (

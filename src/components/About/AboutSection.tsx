@@ -255,7 +255,7 @@ const AboutSection: React.FC = () => {
       <div className="container">
         <SectionHeader>
           <motion.div variants={containerVariants} initial="hidden" animate={isIntersecting ? "visible" : "hidden"}>
-            <SectionLabel variants={itemVariants}>// Profile</SectionLabel>
+            <SectionLabel variants={itemVariants}>{'// Profile'}</SectionLabel>
             <SectionTitle variants={itemVariants}>About Me</SectionTitle>
             <SectionSubtitle variants={itemVariants}>AI Architect @ Autodesk | Y Combinator Alum | MS Computer Science, SUNY</SectionSubtitle>
           </motion.div>
