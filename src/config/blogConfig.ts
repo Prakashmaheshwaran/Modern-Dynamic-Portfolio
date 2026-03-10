@@ -2,13 +2,13 @@
 export const BLOG_CONFIG = {
   // Dev.to public API - unauthenticated (generous rate limits)
   API_URL: 'https://dev.to/api/articles?username=prakash_maheshwaran&per_page=30',
-  
+
   // Maximum number of blogs to display
   MAX_BLOGS: 9,
-  
+
   // API timeout in milliseconds
   TIMEOUT: 15000, // Increased timeout for Dev.to API
-  
+
   // Minimum metrics for blog quality filtering
   MIN_READING_TIME: 1, // Minimum reading time in minutes
   PRIORITY_TAGS: ['javascript', 'typescript', 'python', 'react', 'node', 'automation', 'ai', 'ml'], // Priority tags
@@ -87,44 +87,44 @@ export const sortAndFilterBlogs = (blogs: DevToBlogPost[]): DevToBlogPost[] => {
     .filter(blog => {
       // Only articles (Dev.to public API only returns published articles)
       if (blog.type_of !== 'article') return false;
-      
+
       // Filter out very short posts
       if (blog.reading_time_minutes < BLOG_CONFIG.MIN_READING_TIME) return false;
-      
+
       // Must have meaningful title and description
       if (!blog.title || !blog.description || blog.description.length < 20) return false;
-      
+
       return true;
     })
     .sort((a, b) => {
       // Primary sort: Posts with reactions/engagement first
       const aEngagement = a.public_reactions_count + a.comments_count + (a.page_views_count / 10);
       const bEngagement = b.public_reactions_count + b.comments_count + (b.page_views_count / 10);
-      
+
       if (aEngagement !== bEngagement) {
         return bEngagement - aEngagement;
       }
-      
+
       // Secondary sort: Priority tags
-      const aPriorityTags = a.tag_list.filter(tag => 
+      const aPriorityTags = a.tag_list.filter(tag =>
         BLOG_CONFIG.PRIORITY_TAGS.includes(tag.toLowerCase())
       ).length;
-      const bPriorityTags = b.tag_list.filter(tag => 
+      const bPriorityTags = b.tag_list.filter(tag =>
         BLOG_CONFIG.PRIORITY_TAGS.includes(tag.toLowerCase())
       ).length;
-      
+
       if (aPriorityTags !== bPriorityTags) {
         return bPriorityTags - aPriorityTags;
       }
-      
+
       // Tertiary sort: Reading time (longer posts preferred, but not too long)
       const aReadingScore = Math.min(a.reading_time_minutes, 10); // Cap at 10 minutes
       const bReadingScore = Math.min(b.reading_time_minutes, 10);
-      
+
       if (aReadingScore !== bReadingScore) {
         return bReadingScore - aReadingScore;
       }
-      
+
       // Final sort: Most recent
       return new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
     })
