@@ -58,7 +58,6 @@ import {
   FaGlobe,
   FaHorse
 } from 'react-icons/fa';
-import { IconType, IconBaseProps } from 'react-icons';
 
 // Logo mapping interface
 interface LogoIconProps {
