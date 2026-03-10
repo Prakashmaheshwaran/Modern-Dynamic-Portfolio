@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import myGif from '../../assets/images/my.gif';
 
@@ -29,85 +29,6 @@ const fadeInLeft = keyframes`
   }
 `;
 
-const fadeInRight = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-`;
-
-const bounce = keyframes`
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
-`;
-
-const pulse = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
-
-const slideInFromRight = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-`;
-
-const slideOutToLeft = keyframes`
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-`;
-
-const slideDown = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-`;
-
-const slideUp = keyframes`
-  from {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.95);
-  }
-`;
-
 const subtleGlow = keyframes`
   0%, 100% {
     text-shadow: 0 0 5px rgba(34, 197, 94, 0.3);
@@ -117,17 +38,6 @@ const subtleGlow = keyframes`
   }
 `;
 
-const buttonPulse = keyframes`
-  0% {
-    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
-  }
-`;
 
 const cursorBlink = keyframes`
   0%, 50% {
@@ -587,13 +497,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onSectionChange }) => {
   const [isDropdownClosing, setIsDropdownClosing] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   
-  const roles = [
+  const roles = useMemo(() => [
     'AI Researcher',
-    'Automation Engineer', 
+    'Automation Engineer',
     'AI Developer',
     'Full Stack Developer',
     'Love to draw and bake'
-  ];
+  ], []);
 
   // Typewriter effect
   useEffect(() => {
